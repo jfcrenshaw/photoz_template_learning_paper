@@ -1,0 +1,38 @@
+\note{Intro talking about photo-z's. Mention how LSST cosmology depends on photo-z's. 
+Mention how BPZ has metrics to defend against bad fits, but not against template incompleteness. 
+This method can combat template incompleteness, as well as train old templates on data for better photo-z's. 
+Good sources for this stuff might be LSST science book, original BPZ paper, Budavari paper, Coe paper, etc.}
+
+\note{Some intro stuff I wrote about photo-z's. This is old. Needs to be rewritten.} 
+Template-based photo-z estimators work on the assumption that galaxy photometries are sampled from a relatively small set of underlying spectral types, characterized by the eponymous SED templates. 
+These estimators calculate photo-z's by selecting the template and redshift with simulated fluxes most similar to the observed fluxes. 
+In order for this method to work, the underlying SED templates from which the galaxies are sampled must be known. 
+Common methods for generating these templates include simulating galaxy SED's from spectral synthesis models, e.g. \citet{BruzualA.1993}, and deriving templates from the observed spectra of local galaxies, e.g. \citet{Benitez2004}. 
+A key limitation of these methods is that they do not guarantee that the SED templates will span the full distribution of galaxy spectra in a given data set, nor that they will properly account for the evolution of galaxy spectra with redshift.
+
+
+\note{Notes from meeting with Andy}:
+\begin{itemize}
+    \item Talk about photo-z's
+    \item Template based photo-z and why it's important
+    \item Emphasize the need for finding distance to individual galaxies for SNe stuff
+    \item Hard to get spectral templates bc observationally expensive, especially at high z
+    \item for weak lensing, often too faint to even get a spectrum
+    \item reference Budavari paper
+    \item Csabai paper?
+    \item Introduce the idea of what we're doing
+\end{itemize}
+
+\note{This method is similar to that of Budavari and Csabai, and we use an algorithm adapted from Budavari, but while they used eigenspectra and use coefficients as their parameters, we use top hat bins as our parameters.}
+
+Potential intro references:
+https://arxiv.org/pdf/1611.01560.pdf
+Zhou
+Melissa's paper
+LSST science book
+DESC white paper: https://arxiv.org/abs/1211.0310
+Bilicki is good
+https://arxiv.org/pdf/2004.07885.pdf
+https://arxiv.org/pdf/1805.12574.pdf
+https://arxiv.org/pdf/2004.09542.pdf
+https://confluence.slac.stanford.edu/pages/viewpage.action?pageId=238561496

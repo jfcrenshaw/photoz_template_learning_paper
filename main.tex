@@ -1,0 +1,95 @@
+
+% This is my basic template for writing cosmology/astrophysics/astronomy papers
+% Modified Jan 2, 2020
+%
+% It is based on the AASTeX Template found in the project list
+% Is meant for papers being submitted to AAS Journals (ApJ-AJ-ApJS-ApJL-PSJ-RN)
+% Can also serve as working template for other papers, but beware that some things may
+% break if you switch to another template.
+%
+% using aastex version 6.3
+%
+% This template uses my current favorite settings, but refer to the full template in the
+% project list to see all of the various options, settings, etc.
+%
+% 1 col: 3.35289in
+% 2 col: 7.1014in
+
+\documentclass[twocolumn]{aastex63}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\graphicspath{{./}{figures/}}
+\usepackage{tablefootnote}
+
+% create custom note command
+\newcommand{\note}[1]{\textsf{\textcolor{red}{#1}}}
+
+% code from PZDC1 paper to typeset BPZ
+\newcommand{\pzcode}[1]{\texttt{#1}}
+\newcommand{\bpz}{\pzcode{BPZ}}
+
+\begin{document}
+
+
+% FRONT MATTER ------------------------------------------------------------------
+% -------------------------------------------------------------------------------
+
+\title{Learning Spectral Templates for Photometric Redshift Estimation \\ from Broadband Photometry}
+
+\correspondingauthor{John Franklin Crenshaw}
+\email{jfc20@uw.edu}
+
+\author{John Franklin Crenshaw}
+\affiliation{Department of Physics, University of Washington}
+
+\author{Andrew J. Connolly}
+\affiliation{DIRAC Institute, Department of Astronomy, University of Washington \note{Ask Andy what to put here (e.g. eScience)}}
+
+% add ORCIDs
+
+\begin{abstract}
+    \note{Rough sketch:} 
+    We can learn SED's directly from photometric data, without any a priori knowledge of galaxy spectra. 
+    This is done by starting with naive templates, matching photometry to these templates, then applying a iterative learning algorithm. 
+    This algorithm can also be used to calibrate a set of standard templates to a data set. 
+    We apply this method to a data set that I need to describe. 
+    The learned SED's have a similar fraction of outliers compared to CWW+SB4, but have lower bias and scatter. 
+    The best results come from training the CWW+SB4 templates themselves. 
+    Add a link to the Github repo that contains all of the code.
+    \note{Need to really write this.}
+    \\ \medskip
+\end{abstract}
+
+%\keywords{keyword1, keyword2}
+
+
+% BODY OF PAPER -----------------------------------------------------------------
+% -------------------------------------------------------------------------------
+
+\section{Introduction}
+    %\input{sections/intro}
+    
+\section{Template Training Algorithm}
+    \input{sections/training_algorithm}
+        
+\section{Data}
+    \input{sections/data}
+    
+\section{Application to Data}
+    \input{sections/application_to_data}  
+    
+\section{Estimating Photo-z's}
+    \input{sections/photoz}
+
+\section{Conclusions}
+    %\input{sections/conclusions}
+
+\acknowledgments
+    %\input{sections/acknowledgments}
+    
+    
+\bibliography{references}{}
+\bibliographystyle{aasjournal}
+
+\end{document}
