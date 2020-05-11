@@ -58,7 +58,7 @@ The templates are now a much better match to the photometry and more closely res
 Most of the templates have a Balmer Break at 4000 \AA, although this was essentialy already present in the initial templates.
 In addition, there are now at a much higher resolution than the broadband filters used for photometry, some of which are labeled with gray lines in Figure \ref{fig:N8_trained}.
 Template N8-1 displays Mg and Na absorption lines and template N8-4 contains the beginnings of $H\alpha$ and $H\beta$ emission lines.
-Templates N8-6, N8-7, and N8-8 contain what appear to be $H\alpha$, $H\beta$, $H\gamma$, $H\delta$, $O$II, and $O$III emission lines (see Section \ref{sect:speclines} for more analysis).
+Templates N8-6, N8-7, and N8-8 contain what appear to be H$\alpha$, H$\beta$, H$\gamma$, H$\delta$, OII, and OIII emission lines (see Section \ref{sect:speclines} for more analysis).
 The emergence of these high resolution features from a large ensemble of low resolution data is the result of oversampling the underlying templates and many effective wavelengths. \note{Might be able to say this better.}
 
 \begin{figure*}
@@ -110,6 +110,15 @@ The template training algorithm allows the reconstruction of high resolution spe
 This includes the emergence of spectral lines in many of the templates (c.f. Figures \ref{fig:N8_trained}, \ref{fig:N16_trained}, and \ref{fig:cwwsb4_trained}).
 Knowledge of these lines allows us to perform post-processing of the learned templates to deconvolve the lines from the broadband filters.
 Here we perform a simple post-processing of the N8-6, N8-7, and N8-8 templates to reconstruct the emission lines labeled in Figure \ref{fig:N8_trained}.
+The continuum of each of these templates is linearly interpolated around the emission lines, and the excess flux is attributed to the corresponding spectral lines. 
+The flux of the H$\beta$ line is impossible to distinguish from the OIII line in our templates because they are so close to one another.
+The same is true for the H$\gamma$ and H$\delta$ lines.
+To overcome this difficulty, we use the Balmer decrements of 10,000K SDDS galaxies from \citet{Groves2012a}: H$\alpha/$H$\beta = 2.86$ and H$\gamma/$H$\delta = 1.81$.
+We calculate the H$\beta$ flux from H$\alpha$, and subtract this from the combined H$\beta$-OIII flux, and we calculate H$\gamma$ and H$\delta$ from the combined H$\gamma$-H$\delta$ flux.
+
+The templates with the reconstructed spectral lines can be seen in Figure \ref{fig:speclines}.
+The relative amplitudes and the effective widths of the lines can be seen in Table \ref{tab:speclines}.
+\note{Is there anything else I should say about the results?}
 
 \begin{table}
     \centering
@@ -120,18 +129,24 @@ Here we perform a simple post-processing of the N8-6, N8-7, and N8-8 templates t
         \hline
          & $\lambda$ & $r$ & $W_\text{eff}$ & $r$ & $W_\text{eff}$ & $r$ & $W_\text{eff}$ \\
         \hline
-        $H\alpha$ & 6563 & 2.86 & 132.7 & 2.86 & 103.3 & 2.86 & 115.2 \\
-        $H\beta$  & 4861 & 1.00 &  32.9 & 1.00 &  26.4 & 1.00 &  30.3 \\
-        $H\gamma$ & 4340 & 1.18 &  36.5 & 1.31 &  31.6 & 1.28 &  37.1 \\
-        $H\delta$ & 4102 & 0.65 &  19.6 & 0.72 &  16.7 & 0.71 &  20.7 \\
-        $O$II     & 3727 & 2.04 &  58.1 & 1.27 &  32.0 & 0.74 &  24.4 \\
-        $O$III    & 5007 & 2.08 &  68.0 & 2.42 &  66.1 & 0.86 &  27.3 \\
+        H$\alpha$ & 6563 & 2.86 & 132.7 & 2.86 & 103.3 & 2.86 & 115.2 \\
+        H$\beta$  & 4861 & 1.00 &  32.9 & 1.00 &  26.4 & 1.00 &  30.3 \\
+        H$\gamma$ & 4340 & 1.18 &  36.5 & 1.31 &  31.6 & 1.28 &  37.1 \\
+        H$\delta$ & 4102 & 0.65 &  19.6 & 0.72 &  16.7 & 0.71 &  20.7 \\
+        OII       & 3727 & 2.04 &  58.1 & 1.27 &  32.0 & 0.74 &  24.4 \\
+        OIII      & 5007 & 2.08 &  68.0 & 2.42 &  66.1 & 0.86 &  27.3 \\
 
         \hline
     \end{tabular}
-    \label{tab:lines}
+    \label{tab:speclines}
 \end{table}
 
+\begin{figure*}
+    \centering
+    \includegraphics{figures/N8_spectral_lines.pdf}
+    \caption{\note{Write this caption. Compare to Figure \ref{fig:N8_trained}.}}
+    \label{fig:speclines}
+\end{figure*}
 
 % here's a good link for spectral lines
 % http://star-www.st-and.ac.uk/~spd3/Teaching/PHYS1002/phys1002_lecture6.pdf
