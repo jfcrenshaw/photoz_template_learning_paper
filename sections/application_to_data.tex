@@ -5,12 +5,21 @@
 Mention their redshift and magnitude ranges.
 Calculate the min and max wavelength of the training set, and say that we will try to reconstruct spectra over that wavelength range.}
 
+The training set is the set of galaxies from which the SED templates are learned, according to the methods described in Section \ref{sect:template_training}.
+It consists of 95,927 galaxies ($86\%$ of all galaxies) with redshifts $z < 4.54$ and $i$-band magnitudes in the range $13.8 < i < 26.8$.
+The training set is composed of three spec-z surveys, zCOSMOS-\textit{bright} \citep{Lilly2009a}, VVDS \citep{LeFevre2013b}, and VIPERS \citep{Scodeggio2018a}, each conducted with the VIMOS spectrograph mounted on the European Southern Observatory's (ESO) Very Large Telescope (VLT).
+The spec-z's are matched to broadband photometry from the GALEX, CFHT (Megacam and CFH12k), Subaru, and UKIRT telescopes (see Table \ref{tab:filters}).
+
+The test set is the set of galaxies for which photo-z's are estimated with \bpz, as described in Section \ref{sect:bpz}, using the SED templates learned from the training set. 
+It consists of 15,650 galaxies ($14\%$ of all galaxies) with redshifts $z < 3.32$ and $i$-band magnitudes in the range $15.3 < i < 27.4$
+The test set is composed of broadband photometry and spec-z's from the DEEP2/3 and 3D-HST surveys compiled in \citet{Zhou2019a}.
 
 
 
 \subsection{The Training and Test Set}
 
-\note{Move discussion of the training and test set here.}
+\note{Move discussion of the training and test set here. This set is divided into a training set, from which SED templates are learned, and a test set, for which photo-z's are estimated using the learned templates. 
+}
 
 
 

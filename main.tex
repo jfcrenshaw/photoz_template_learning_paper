@@ -14,13 +14,12 @@
 %
 % 1 col: 3.35289in
 % 2 col: 7.1014in
-
+ 
 \documentclass[twocolumn]{aastex63}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
 \graphicspath{{./}{figures/}}
-\usepackage{tablefootnote}
 
 % create custom note command
 \newcommand{\note}[1]{\textsf{\textcolor{red}{#1}}}
@@ -40,13 +39,12 @@
 \correspondingauthor{John Franklin Crenshaw}
 \email{jfc20@uw.edu}
 
-\author{John Franklin Crenshaw}
+\author[0000-0002-2495-3514]{John Franklin Crenshaw}
 \affiliation{Department of Physics, University of Washington}
 
-\author{Andrew J. Connolly}
+\author[0000-0001-5576-8189]{Andrew J. Connolly}
 \affiliation{DIRAC Institute, Department of Astronomy, University of Washington \note{Ask Andy what to put here (e.g. eScience)}}
 
-% add ORCIDs
 
 \begin{abstract}
     \note{Rough sketch:} 
@@ -89,7 +87,7 @@
     %\input{sections/acknowledgments}
     
     
-\bibliography{references}{}
+\bibliography{references.bib}{}
 \bibliographystyle{aasjournal}
 
 \end{document}
