@@ -5,7 +5,6 @@ In this section, we will present an approach for learning SED templates directly
 If we assume that the galaxies in our data set are sampled from a small set of underlying spectra, the SED templates, and we know the spectroscopic redshift for each galaxy, we can shift the photometry to the rest frame and treat each observation of a redshifted galaxy as a \textit{rest frame observation} of one of the templates with a different set of effective filters. 
 With a large enough data set, the wavelengths of the effective filters will overlap substantially. 
 This over-sampling allows us to recover higher resolution features in the templates, even though the data are low resolution observations of different galaxies.
-This is analogous to the reconstruction of higher resolution HST images using the Drizzle technique \citep{Fruchter2002} and the reconstruction of higher resolution SED's using differential chromatic refraction (DCR; \citealt{Lee2019}).
 
 Let us assume we have a set of SED templates as a starting point, which can represent rudimentary guesses and need not resemble true galaxy spectra. 
 In the first part of this section, we describe a method by which we can create a training set of broadband photometry for each template from a large data set of galaxy photometry. 

@@ -48,7 +48,7 @@ Eventually, all of the points are orange, indicating that after each new photome
 \begin{figure*}
     \centering
     \includegraphics{figures/N8_1_training_history.pdf}
-    \caption{Training history for N8-1. \note{Need to actually write this!}}
+    \caption{Training of N8-1. Left: the initial N8-1 template is iteratively perturbed to better represent the colors of its photometry set. The final template is redder and has more structure. Middle: wMSE of the N8-1 template throughout the training process. Orange points represent the wMSE after a photometry matching stage, while blue points represent the wMSE after a perturbation. Right: fractional change in the wMSE. Orange points represent the fractional change due to a new photometry matching stage, while blue points represent a fractional change due to a perturbation. The dotted black lines show the $\pm 0.03$ cutoff. When a perturbation results in a fractional change of magnitude less than 0.03, perturbation is halted and new photometry is matched. After the sixth photometry match, the template is not perturbed because it already sufficiently matches the photometry.}
     \label{fig:training}
 \end{figure*}
 
@@ -64,7 +64,7 @@ The emergence of these high resolution features from a large ensemble of low res
 \begin{figure*}
     \centering
     \includegraphics{figures/N8_trained.png}
-    \caption{The trained N8 templates (black lines) with their final training sets (orange points). N8-1 is the reddest template, with each successive template getting bluer. \note{Say something about the lines added to guide the eye to spectral features.}}
+    \caption{The trained N8 templates (black lines) with their final photometry sets (orange points). N8-1 is the reddest template, with each successive template getting bluer. The templates now more closely resemble physical galaxy spectra, and have acquired structure at a higher resolution than the broadband templates. The Balmer break, Mg and Na absorption lines, and H$\alpha$, H$\beta$, H$\gamma$, H$\delta$, OII, and OIII emission lines are labeled in gray.}
     \label{fig:N8_trained}
 \end{figure*}
 
@@ -97,7 +97,7 @@ These new features have been labeled in gray.
 \begin{figure*}
     \centering
     \includegraphics{figures/cwwsb4_trained.png}
-    \caption{Result of training the CWW+SB4 templates. The original templates are in blue, the trained templates in black, and the final training sets are displayed as orange points.}
+    \caption{Result of training the CWW+SB4 templates. The original templates are in blue, the trained templates in black, and the final training sets are displayed as orange points. The 25Myr and 5Myr templates have acquired emission lines that were not present in the initial templates. These are labeled in gray.}
     \label{fig:cwwsb4_trained}
 \end{figure*}
 
@@ -110,24 +110,27 @@ The template training algorithm allows the reconstruction of high resolution spe
 This includes the emergence of spectral lines in many of the templates (c.f. Figures \ref{fig:N8_trained}, \ref{fig:N16_trained}, and \ref{fig:cwwsb4_trained}).
 Knowledge of these lines allows us to perform post-processing of the learned templates to deconvolve the lines from the broadband filters.
 Here we perform a simple post-processing of the N8-6, N8-7, and N8-8 templates to reconstruct the emission lines labeled in Figure \ref{fig:N8_trained}.
-The continuum of each of these templates is linearly interpolated around the emission lines, and the excess flux is attributed to the corresponding spectral lines. 
+The templates are up-sampled to 10 \AA\ and the continuum of each is linearly interpolated around the emission lines.
+The excess flux is attributed to the corresponding spectral lines. 
 The flux of the H$\beta$ line is impossible to distinguish from the OIII line in our templates because they are so close to one another.
 The same is true for the H$\gamma$ and H$\delta$ lines.
-To overcome this difficulty, we use the Balmer decrements of 10,000K SDDS galaxies from \citet{Groves2012a}: H$\alpha/$H$\beta = 2.86$ and H$\gamma/$H$\delta = 1.81$.
+To overcome this difficulty, we use the Balmer decrements of $10^4$K SDSS galaxies from \citet{Groves2012a}: H$\alpha/$H$\beta = 2.86$ and H$\gamma/$H$\delta = 1.81$.
 We calculate the H$\beta$ flux from H$\alpha$, and subtract this from the combined H$\beta$-OIII flux, and we calculate H$\gamma$ and H$\delta$ from the combined H$\gamma$-H$\delta$ flux.
 
+After calculating the flux of the emission lines, the final templates are built by adding Gaussians of equivalent amplitude and FWHM = 20 \AA\ to the continuum. 
 The templates with the reconstructed spectral lines can be seen in Figure \ref{fig:speclines}.
-The relative amplitudes and the effective widths of the lines can be seen in Table \ref{tab:speclines}.
-\note{Is there anything else I should say about the results?}
+For each line, we calculate the amplitude relative to H$\beta$, and the effective width, $W_\lambda = \int (1 - F_\lambda/F_0) d\lambda$, where $F_\lambda$ is the total flux, and $F_0$ is the continuum flux.
+These values can be seen in Table \ref{tab:speclines}.
+Note that the amplitudes of our reconstructed H$\gamma$ and H$\delta$ lines relative to H$\beta$ are approximately three times greater than those listed in \citet{Groves2012a}.
 
 \begin{table}
     \centering
-    \caption{\note{Write this caption.}}
+    \caption{The emission lines reconstructed in the N8-6, N8-7, and N8-8 templates. For each line, we list the amplitude relative to H$\beta$, $r$, and the effective width, $W_\lambda$.}
     \begin{tabular}{c c | c r | c r | c r }
         \hline \hline
          & & \multicolumn{2}{c|}{N8-6} & \multicolumn{2}{c|}{N8-7} & \multicolumn{2}{c}{N8-8} \\
         \hline
-         & $\lambda$ & $r$ & $W_\text{eff}$ & $r$ & $W_\text{eff}$ & $r$ & $W_\text{eff}$ \\
+         & $\lambda$ & $r$ & $W_\lambda$ & $r$ & $W_\lambda$ & $r$ & $W_\lambda$ \\
         \hline
         H$\alpha$ & 6563 & 2.86 & 132.7 & 2.86 & 103.3 & 2.86 & 115.2 \\
         H$\beta$  & 4861 & 1.00 &  32.9 & 1.00 &  26.4 & 1.00 &  30.3 \\
@@ -144,19 +147,6 @@ The relative amplitudes and the effective widths of the lines can be seen in Tab
 \begin{figure*}
     \centering
     \includegraphics{figures/N8_spectral_lines.pdf}
-    \caption{\note{Write this caption. Compare to Figure \ref{fig:N8_trained}.}}
+    \caption{The N8-6, N8-7, and N8-8 templates with reconstructed emission lines (cf. Figure \ref{fig:N8_trained}). The emission lines, left to right, are OII,H$\delta$, H$\gamma$, H$\beta$, OIII, and H$\alpha$. The wavelengths, relative amplitudes, and effective widths of these lines are in Table \ref{tab:speclines}.}
     \label{fig:speclines}
 \end{figure*}
-
-% here's a good link for spectral lines
-% http://star-www.st-and.ac.uk/~spd3/Teaching/PHYS1002/phys1002_lecture6.pdf
-% and here's the spectral ratios
-% https://arxiv.org/pdf/1109.2597.pdf
-
-%\note{Simple post-processing.
-%Linearly interpolate around the spikes seen in the N8 trained plot.
-%Move that excess flux into a spectral line.
-%Used line ratios for Halpha/Hbeta and Hdelta/Hgamma, as Hbeta can't be isolated from OIII and Hbeta,gamma can't be isolated from one another.
-%Results of the reconstruction are seen in Figure\dots
-%The relative heights and the equivalent widths of the lines are in Table \ddots
-%Also note that before reconstruction, I upsample the SEDs since the width of spectral lines are below my training resolution}

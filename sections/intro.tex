@@ -1,40 +1,61 @@
-\note{Intro talking about photo-z's. Mention how LSST cosmology depends on photo-z's. 
-Mention how BPZ has metrics to defend against bad fits, but not against template incompleteness. 
-This method can combat template incompleteness, as well as train old templates on data for better photo-z's. 
-Good sources for this stuff might be LSST science book, original BPZ paper, Budavari paper, Coe paper, etc.}
 
-\note{Some intro stuff I wrote about photo-z's. This is old. Needs to be rewritten.} 
-Template-based photo-z estimators work on the assumption that galaxy photometries are sampled from a relatively small set of underlying spectral types, characterized by the eponymous SED templates. 
+Redshift is one of the most important observables in extragalactic astronomy and cosmology.
+Studies of galaxy evolution, galaxy clusters, large-scale structure, weak lensing, etc all rely on the determination of galaxy redshift.
+Spectroscopic surveys of galaxies can provide very accurate redshifts by measuring the shifted wavelengths of sharp spectral features such as emission and absorption lines.
+Despite advancements in multi-object spectrographs, spectroscopic measurements are expensive and time-consuming and we can only collect spectra for a small fraction of the galaxies imaged in modern surveys, such as the Dark Energy Survey (DES; \citealt{TheDarkEnergySurveyCollaboration2005}) and the Kilo-Degree Survey (KiDS; \citealt{DeJong2013a}).
+This problem will only increase in magnitude as the next generation of surveys, such as the Vera Rubin Observatory Legacy Survey of Space and Time (LSST; \citealt{LSSTScienceCollaboration2009}) and the Wide-Field Infrared Survey Telescope (WFIRST; \citealt{Green2012}), will image orders of magnitude more galaxies at fainter magnitudes than are present in current data sets.
+As a result, rather than rely on spectroscopic redshifts (spec-z's), modern surveys must increasingly rely on photometric redshifts (photo-z's; see \citealt{Salvato2019} for a review).
+
+Photo-z's are estimates of galaxy redshifts that rely on the changing colors of galaxies as their spectral energy distributions (SED's) redshift through a series of broadband filters.
+This estimation is typically done using one of two approaches: machine learning (ML) or template fitting (see e.g. \citealt{Schmidt2020} for an evaluation of many examples of the two).
+
+Machine learning approaches train on a data set of photometry with spec-z's and attempt to directly learn an empirical relationship between galaxy colors and redshift (e.g. \texttt{TPZ} \citealt{Kind2013}, \texttt{FlexZBoost} \citealt{Izbicki2017}, \texttt{CMNN} \citealt{Graham2018a}).
+Once trained, they can predict galaxy redshifts given photometry only.
+The advantage of ML methods is that the effects of dust, galaxy evolution, and other relevant variables are encoded in the training set and thus accounted for in the derived mapping from colors to redshift.
+The downside of ML methods is that they are not physically motivated.
+Their success relies on how representative and well-controlled the training set is, and they are unable to extrapolate beyond that set.
+
+Template fitting photo-z estimators (e.g. \texttt{LePhare} \citealt{Arnouts1999}, \bpz\ \citealt{Benitez2000a}, \texttt{EAZY} \citealt{Brammer2008}) work on the assumption that galaxy photometry are sampled from a relatively small set of underlying spectral types, characterized by the eponymous SED templates. 
 These estimators calculate photo-z's by selecting the template and redshift with simulated fluxes most similar to the observed fluxes. 
 In order for this method to work, the underlying SED templates from which the galaxies are sampled must be known. 
-Common methods for generating these templates include simulating galaxy SED's from spectral synthesis models, e.g. \citet{BruzualA.1993}, and deriving templates from the observed spectra of local galaxies, e.g. \citet{Benitez2004}. 
-A key limitation of these methods is that they do not guarantee that the SED templates will span the full distribution of galaxy spectra in a given data set, nor that they will properly account for the evolution of galaxy spectra with redshift.
+Common methods for generating these templates include simulating galaxy SED's from spectral synthesis models, e.g. \citet{BruzualA.1993a}, and deriving templates from the observed spectra of local galaxies, e.g. \citet{Benitez2004a}. 
+
+The primary advantage of these methods is that it is not limited to the interpolation of a training set. 
+A key limitation of these methods is that they do not guarantee that the SED templates will span the full distribution of galaxy spectra in a given data set, nor that they will properly account for the effects of dust, the evolution galaxy spectra with redshift, etc.
+In addition, spectral synthesis models are only able to generate spectra with a discrete set of physical parameters (e.g. temperature, age, metallicity), and obtaining high-z galaxy spectra is incredibly expensive.
+
+Several previous works have attempted to combine the advantages of these two approaches by deriving SED templates from a photometry training set, and then using the derived templates for photo-z estimation (\citealt{Budavari2000b,Csabai2000,Kalmbach2017}).
+This approach retains the physical motivation and extensibility of the template fitting method, while taking advantage of learning the systematics and confounding variables implicit in the training set.
+In addition, learning templates from a large training set opens the possibility of learning a smooth continuum of galaxy spectra, in contrast to the discrete set offered by the limited galaxy observations and galaxy modeling codes.
+
+While these previous works attempt to learn galaxy templates from data using a set of eigenspectra, we propose to adapt the algorithm of \citet{Budavari2000b} to directly learn a set of templates from the data, using a large set of top hat bins as our parameters.
+We also extend these earlier works by applying our methods to a large data set of 102,476 galaxies with spec-z's and photometry in 19 bands.
+We demonstrate how leveraging a large set of galaxy photometry, which amount to low resolution spectra, allows us to essentially observe a smaller set of SED templates at an ensemble of redshifts.
+This effectively over-samples the template SED's, allowing us to reconstruct spectral features at a resolution much higher than that of the broadband filters used to measure the photometry.
+This method is analogous to the Drizzle technique used to reconstruct higher resolution images for the Hubble Space Telescope (HST; \citealt{Fruchter2002}) and the reconstruction of SED's using differential chromatic refraction (DCR; \citealt{Lee2019}).
+
+In this manner we are able to learn a variable number of SED templates with clear spectral features, and with simple postprocessing, we are able to further reconstruct emission lines in the bluest templates.
+We use templates learned from scratch and pre-existing templates trained on the data to estimate photo-z's using \bpz \citep{Benitez2000a}.
+We use these learned templates to estimate photo-z's with \bpz\ and find that the training reduces the bias scatter of the redshift estimates, with little impact on the fraction of catastrophic outliers.
+\note{Something about the number of templates learned.}
+
+The outline of the paper is as follows:
+in Section \ref{sect:template_training} we describe the template training algorithm, including how to match photometry to templates, how to perturb templates to better match the photometry, and how to select the hyperparameters for training.
+In Section \ref{sect:data}, we describe the spec-z and photometric data sets we are using for the template training and the redshift estimation.
+In Section \ref{sect:application}, we apply the template training algorithm to sets of naive templates and a pre-existing set of templates derived from galaxy observations and spectral synthesis models.
+We discuss how the training was performed and discuss the results, including reconstructing and analyzing the emerging spectral features.
+In Section \ref{sect:photoz}, we use our templates to estimate photo-z's for a training set of galaxies and analyze the results.
+We conclude in Section \ref{sect:conclusion} with a discussion of our results and future goals.
 
 
-\note{Notes from meeting with Andy}:
-\begin{itemize}
-    \item Talk about photo-z's
-    \item Template based photo-z and why it's important
-    \item Emphasize the need for finding distance to individual galaxies for SNe stuff
-    \item Hard to get spectral templates bc observationally expensive, especially at high z
-    \item for weak lensing, often too faint to even get a spectrum
-    \item reference Budavari paper
-    \item Csabai paper?
-    \item Introduce the idea of what we're doing
-\end{itemize}
 
-\note{This method is similar to that of Budavari and Csabai, and we use an algorithm adapted from Budavari, but while they used eigenspectra and use coefficients as their parameters, we use top hat bins as our parameters.}
-
-Potential intro references:
-https://arxiv.org/pdf/1611.01560.pdf
-Zhou
-Melissa's paper
-LSST science book
-DESC white paper: https://arxiv.org/abs/1211.0310
-Bilicki is good
-https://arxiv.org/pdf/2004.07885.pdf
-https://arxiv.org/pdf/1805.12574.pdf
-https://arxiv.org/pdf/2004.09542.pdf
-https://confluence.slac.stanford.edu/pages/viewpage.action?pageId=238561496
-
-maybe cite Bryce's template learning paper
+%Potential intro references:
+%https://arxiv.org/pdf/1611.01560.pdf
+%Zhou
+%Melissa's paper
+%LSST science book
+%DESC white paper: https://arxiv.org/abs/1211.0310
+%Bilicki is good
+%https://arxiv.org/pdf/2004.07885.pdf
+%https://arxiv.org/pdf/1805.12574.pdf
+%https://confluence.slac.stanford.edu/pages/viewpage.action?pageId=238561496
