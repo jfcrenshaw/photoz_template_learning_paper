@@ -59,7 +59,7 @@ Most of the templates have a Balmer Break at 4000 \AA, although this was essenti
 In addition, there are now at a much higher resolution than the broadband filters used for photometry, some of which are labeled with gray lines in Figure \ref{fig:N8_trained}.
 Template N8-1 displays Mg and Na absorption lines and template N8-4 contains the beginnings of $H\alpha$ and $H\beta$ emission lines.
 Templates N8-6, N8-7, and N8-8 contain what appear to be H$\alpha$, H$\beta$, H$\gamma$, H$\delta$, OII, and OIII emission lines (see Section \ref{sect:speclines} for more analysis).
-The emergence of these high resolution features from a large ensemble of low resolution data is the result of oversampling the underlying templates and many effective wavelengths. \note{Might be able to say this better.}
+The emergence of these high resolution features from a large ensemble of low resolution data is the one of the defining features of our method.
 
 \begin{figure*}
     \centering
@@ -69,15 +69,15 @@ The emergence of these high resolution features from a large ensemble of low res
 \end{figure*}
 
 In addition to these eight templates, we also train a set of 16 templates from the same range of parameters for the log-normal distribution, creating a more gradual transition of the templates from red to blue. 
-Training for this template set (hereafter N16) took \note{XX} minutes over \note{XX} iterations.
+Training for this template set (hereafter N16) took 150 minutes over 24 iterations.
 The results of the training can be seen in Figure \ref{fig:N16_trained}.
-\note{Say something about the results and the absorption/emission lines recovered.} 
-\note{Say something about how you could conceivable recover a smooth-ish manifold of templates rather than a discrete set of templates.}
+These results closely resemble the N8 results, with the same spectral features emerging.
+However, the N16 set shows a more gradual transition from red to blue.
 
 \begin{figure*}
     \centering
     \includegraphics{figures/N16_trained.png}
-    \caption{The trained N16 templates (black lines) with their final training sets (orange points). N16-1 is the reddest template, with each successive template getting bluer. \note{Say something about the lines added to guide the eye to spectral features.}}
+    \caption{The trained N16 templates (black lines) with their final photometry sets (orange points). N16-1 is the reddest template, with each successive template getting bluer. These templates closely resemble the N8 templates and have show the same emerging spectral features (c.f. Figure \ref{fig:N8_trained}), but consist of a more continuous transition from red to blue spectra.}
     \label{fig:N16_trained}
 \end{figure*}
 
