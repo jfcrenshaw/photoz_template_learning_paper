@@ -22,9 +22,9 @@ Common methods for generating these templates include simulating galaxy SED's fr
 
 The primary advantage of these methods is that it is not limited to the interpolation of a training set. 
 A key limitation of these methods is that they do not guarantee that the SED templates will span the full distribution of galaxy spectra in a given data set, nor that they will properly account for the effects of dust, the evolution galaxy spectra with redshift, etc.
-In addition, spectral synthesis models are only able to generate spectra with a discrete set of physical parameters (e.g. temperature, age, metallicity), and obtaining high-z galaxy spectra is incredibly expensive.
+In addition, spectral synthesis models are only able to generate spectra with a discrete set of physical parameters (e.g. temperature, age, metallicity), and obtaining real galaxy spectra is expensive, especially at the high redshifts and magnitudes that will be observed by LSST.
 
-Several previous works have attempted to combine the advantages of these two approaches by deriving SED templates from a photometry training set, and then using the derived templates for photo-z estimation (\citealt{Budavari2000b,Csabai2000,Kalmbach2017}).
+Several previous works have attempted to combine the advantages of these two approaches by deriving SED templates from a photometry training set, and then using the derived templates for photo-z estimation (\citealt{Budavari2000b,Csabai2000}).
 This approach retains the physical motivation and extensibility of the template fitting method, while taking advantage of learning the systematics and confounding variables implicit in the training set.
 In addition, learning templates from a large training set opens the possibility of learning a smooth continuum of galaxy spectra, in contrast to the discrete set offered by the limited galaxy observations and galaxy modeling codes.
 
@@ -36,8 +36,8 @@ This method is analogous to the Drizzle technique used to reconstruct higher res
 
 In this manner we are able to learn a variable number of SED templates with clear spectral features, and with simple postprocessing, we are able to further reconstruct emission lines in the bluest templates.
 We use templates learned from scratch and pre-existing templates trained on the data to estimate photo-z's using \bpz \citep{Benitez2000a}.
-We use these learned templates to estimate photo-z's with \bpz\ and find that the training reduces the bias scatter of the redshift estimates, with little impact on the fraction of catastrophic outliers.
-\note{Something about the number of templates learned.}
+We use these learned templates to estimate photo-z's with \bpz\ and find that the training reduces the bias and scatter of the redshift estimates, with little impact on the fraction of catastrophic outliers.
+In addition, we find that both bias and scatter decrease with the number of SED templates used in the photo-z estimation.
 
 The outline of the paper is as follows:
 in Section \ref{sect:template_training} we describe the template training algorithm, including how to match photometry to templates, how to perturb templates to better match the photometry, and how to select the hyperparameters for training.
@@ -45,8 +45,7 @@ In Section \ref{sect:data}, we describe the spec-z and photometric data sets we 
 In Section \ref{sect:application}, we apply the template training algorithm to sets of naive templates and a pre-existing set of templates derived from galaxy observations and spectral synthesis models.
 We discuss how the training was performed and discuss the results, including reconstructing and analyzing the emerging spectral features.
 In Section \ref{sect:photoz}, we use our templates to estimate photo-z's for a training set of galaxies and analyze the results.
-We conclude in Section \ref{sect:conclusion} with a discussion of our results and future goals.
-
+We discuss our results and future goals in Section \ref{sect:discussion} and conclude in Section \ref{sect:conclusion}.
 
 
 %Potential intro references:

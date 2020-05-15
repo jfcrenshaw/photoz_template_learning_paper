@@ -30,12 +30,22 @@ Work is underway to determine how best to use the full information encoded in th
 In this work, however, only the peak of the posterior distribution is used to estimate the photo-z.
 
 We use \bpz-v1.99.3\footnote{\url{http://www.stsci.edu/~dcoe/BPZ/}} \citep{Benitez2000a} to estimate photo-z's, providing the various sets of templates described in Section \ref{sect:application}.
-We linearly interpolate two templates between each basis template, sorted by rest $u-g$ color, by setting \texttt{INTERP=2}. 
+We linearly interpolate two templates between each basis template, sorted by rest $u-g$ color, by setting \texttt{INTERP=0}. 
 We use the default \bpz\ prior, which requires each SED template be broadly classified as either elliptical, spiral, or irregular/starburst. 
 The SED classifications for each template set are discussed in the next section. 
 We use the one of the $i$ bands for the magnitude prior, in the following order of priority: $i$, $i_2$, $I$, $i^+$.
 For simplicity, we treat non-detections as non-observations.
 All other settings were left as default.
+
+\subsection{Photo-z Results}
+\label{sect:photoz_results}
+
+Photo-z's were estimated for the test set using \bpz\ with the settings described in the previous section.
+We used four template sets: the original CWW+SB4 templates, the trained CWW+SB4 templates, and the trained N8 and N16 templates.
+The Bayesian prior used by \bpz\ requires each of the SED templates be broadly classified as either elliptical, spiral, or irregular/starburst.
+Each of our new templates are assigned the type of the CWW+SB4 template with the most similar colors, determined by minimized the mean square error of the fluxes.
+The N8 templates are determined to have one elliptical, four spiral, and three irregular/starburst galaxies.
+The N16 templates are determined to have two elliptical, eight spiral, and six irregular/starburst galaxies.
 
 \bpz\ provides two metrics for the photo-z estimates: \texttt{ODDS} and $\chi_{\text{mod}}^2$.
 \texttt{ODDS} measures how narrowly peaked the posterior distribution $p(z|\{f_n\},m_0)$ is around the estimated photo-z.
@@ -49,36 +59,13 @@ Photo-z estimates are known to be contaminated with a significant number of outl
 This is largely driven by a degeneracy wherein the 1000\AA\ Lyman break in a high redshift galaxy spectrum is shifted to the position of the 4000\AA\ Balmer break in a low redshift galaxy spectrum. 
 \bpz\ attempts to break this degeneracy with the galaxy magnitude prior (i.e. galaxies with brighter apparent magnitudes are more likely to be at a lower redshift), yet there are still a large number of outliers.
 
-To address this issue, we evaluate the statistics of the interquartile range (IQR) of the data, as these measures are known to be robust to the presence of outliers.
+To address this issue, we evaluate the statistics of the interquartile range (IQR) of the data, as these measures are robust to the presence of outliers.
 We follow \citet{Graham2018a} in introducing the quantity $\Delta z_{1+z} = (z_{spec} - z_{phot})/(1 + z_{phot})$.
-The numerator quantifies the photo-z error, and the denominator compensates for the larger uncertainty at high redshifts. 
+The numerator quantifies the photo-z error and the denominator compensates for the larger uncertainty at high redshifts. 
 We define the scatter of the photo-z estimates, $\sigma_\text{IQR}$,  as the width of the IQR in $\Delta z_{1+z}$, divided by 1.349 to convert to the equivalent of a Gaussian standard deviation. 
 We define the bias of the photo-z estimates as the mean value of $\Delta z_{1+z}$ for galaxies within the IQR.
 The uncertainties of these two values are bootstrapped by calculating the values on 1000 random samples with replacement. 
 Outliers are identified as photo-z's with $\Delta z_{1+z} > 3 \sigma_{\text{IQR}}$, and the fraction of outliers is reported as $f_\text{out}$.
-
-
-
-\subsection{Photo-z Results}
-\label{sect:photoz_results}
-
-Photo-z's were estimated for the test set using \bpz\ with the original CWW+SB4 templates, the trained CWW+SB4 templates, and the trained N8 and N16 templates.
-The Bayesian prior used by \bpz\ requires each of the SED templates be broadly classified as either elliptical, spiral, or irregular/starburst.
-Each of our new templates are assigned the type of the CWW+SB4 template with the most similar colors, determined by minimized the mean square error of the fluxes.
-The N8 templates are determined to have one elliptical, three spiral, and four irregular/starburst galaxies.
-The N16 templates are determined to have two elliptical, five spiral, and nine irregular/starburst galaxies.
-
-The photo-z results can be seen in Figure \ref{fig:photoz_results}.
-The photo-z estimates that passed the cuts on \texttt{ODDS} and $\chi_\text{mod}^2$ are displayed as points: the inliers in blue, the outliers in orange.
-The values of the photo-z statistics for each template set are printed in each panel.
-For all four template sets, the photo-z estimation is reasonably accurate for spec-z's $z < 1.5$.
-For higher redshifts, there appears to be a systematic bias towards higher photo-z's.
-Reduced photo-z accuracy is generally expected for spec-z's greater than 1.5, as the Balmer break leaves most band sets at around $z=1.4$ and the Lyman break does not enter most band sets until $z=2.5$.
-
-By comparing the top two panels, one can see that the training algorithm decreases the fraction cut, the bias, and scatter of the photo-z results for the CWW+SB4 templates, but does not improve the outlier fraction.
-The bottom two panels show that similar results are obtained with the N8 and N16 template sets, demonstrating that this method can be used to generate photo-z templates without any a priori information about galaxy spectra.
-The trained N8 and N16 templates have a better cut fraction, better bias, and better scatter than the original CWW+SB4, but have worse outlier fractions.
-It is clear that our training method improves photo-z estimates for the galaxies with successful photo-z estimates, but does not help resolve the degeneracies that lead to catastrophic outliers.
 
 \begin{figure*}
     \centering
@@ -87,23 +74,47 @@ It is clear that our training method improves photo-z estimates for the galaxies
     \label{fig:photoz_results}
 \end{figure*}
 
-The value of the metrics as a function of photo-z can be seen in Figure \ref{fig:photoz_binned}. For comparison, plotted in gray are the LSST science requirements for the metrics as listed in the LSST Science Requirement Document (SRD; \citealt{Ivezic2018}).
+The photo-z results can be seen in Figure \ref{fig:photoz_results}.
+The photo-z estimates that passed the cuts on \texttt{ODDS} and $\chi_\text{mod}^2$ are displayed as points: the inliers in blue, the outliers in orange.
+The values of the photo-z statistics for each template set are printed in each panel.
+For all four template sets, the photo-z estimation is reasonably accurate for spec-z's $z < 1.5$.
+For higher redshifts, there appears to be a systematic bias towards higher photo-z's.
+Reduced photo-z accuracy is generally expected for spec-z's greater than 1.5, as the Balmer break leaves most band sets at around $z=1.4$ and the Lyman break does not enter most band sets until $z=2.5$.
+
+For the CWW+SB4 templates, the training algorithm decreased the fraction of photo-z's cut by 23\%, the bias by 61\%, and the scatter by 21\%, but did not improve the outlier fraction.
+We were able to achieve similar photo-z results using the trained N8 and N16 template sets, demonstrating that our training algorithm can be used to generate photo-z templates without any a priori information about galaxy spectra.
+Compared to the CWW+SB4 templates, N8 templates decreased $f_\text{cut}$ by 25\%, bias by 58\%, and scatter by 23\%.
+The N16 templates decreased $f_\text{cut}$ by 29\%, bias by 82\%, and scatter by 27\%.
+However, both sets have a similar outlier fraction.
+
+Comparing the results for the N8 and N16 template sets indicate that increasing the number of templates can reduce the fraction cut, and the bias and scatter of the photo-z estimates.
+To further investigate this relationship, we calculate the photo-z statistics for a range of template numbers, the results of which are in Figure \ref{fig:Ntemplates}.
+We find that increasing the number of templates up to 20 monotonically decreases the bias.
+There are also modest improvement in scatter and $f_\text{cut}$.
+The outlier fraction is also decreased, although that relationship is less clear.
+
+The N20 set has $f_\text{cut} = 0.219$ (a 28\% decrease compared to CWW+SB4), $f_\text{out} = 0.041$ (a 28\% decrease), bias = 0.003 (a 91\% decrease), and scatter = 0.039 (a 25\% decrease).
+
+\begin{figure*}
+    \centering
+    \includegraphics{figures/Ntemplates.pdf}
+    \caption{Photo-z statistics as a function of template number. Statistics are for the full redshift range.}
+    \label{fig:Ntemplates}
+\end{figure*}
+
+The value of the metrics as a function of photo-z can be seen in Figure \ref{fig:photoz_binned}.
+In addition to the template sets plotted above, we add an N20 set.
+For comparison, plotted in gray are the LSST science requirements for the metrics as listed in the LSST Science Requirement Document (SRD; \citealt{Ivezic2018}).
 The SRD lists the following minimum requirements to enable the envisioned LSST cosmological studies: root-mean-square error $< 0.02(1+z_\text{phot})$; $f_\text{out} < 10\%$; average bias $<0.003(1+z_\text{phot})$.
 The SRD lists these requirements for an $i<25$, magnitude-limited sample of four billion galaxies from $0.3 < z < 3.0$.
 For comparison, our test set consists of 20,496 galaxies with $i < 25.7$, in the range $z < 3.6$, including 19,391 galaxies with $i < 25$, in the range $0.3 < z < 3.0$.
-In Figure \ref{fig:photoz_binned}, you can see that for redshifts $0.3 < z < 3.0$ we are able to achieve an appropriate outlier fraction, and that our training algorithm makes great progress on the bias and modest progress on scatter.
+In Figure \ref{fig:photoz_binned}, you can see that for redshifts $0.3 < z < 1.0$ we are able to achieve an appropriate outlier fraction, and that our training algorithm makes great progress on the bias, almost reaching the threshold required for LSST.
+We also make modest progress on the scatter, but reduction by another factor of two is still required.
+Beyond redshift $z=1$, all of our metrics far exceed the LSST science requirements.
 
 \begin{figure*}
     \centering
     \includegraphics{figures/photoz_binned_metrics.pdf}
-    \caption{Photo-z metrics as a function of redshift bin. LSST science requirements are displayed as dashed gray lines.}
+    \caption{Photo-z metrics for the various template sets as a function of redshift bin. LSST science requirements are shown as dashed gray lines.}
     \label{fig:photoz_binned}
 \end{figure*}
-
-\note{Section about the impact of template number.}
-
-
-%n addition to these four template sets, we considered one additional ``augmented'' set, which consists of the 16 templates from N16, as well as the El, 25Myr, and 5Myr templates from CWW+SB4.
-%This set consists of 19 templates, and spans the widest range of the color space visible in Figure \ref{fig:color_classify} (i.e. it contains the N16 template set, plus the red template in the top right and the two blue templates in the bottom left in the right panel of Figure \ref{fig:color_classify}). 
-%These results were virtually indistinguishable from the N16 results, and are thus not displayed in Figure \ref{fig:photoz_results}.
-%This further supports the case that additional templates have little impact on photo-z's.
