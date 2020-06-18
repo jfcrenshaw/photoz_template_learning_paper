@@ -55,13 +55,13 @@ However, we can also calculate the template fluxes by imagining that we are obse
 \end{align}
 
 We wish to perturb the template so that the template fluxes, $\hat{f}_n$, better match the observed fluxes, $f_n$. 
-Replacing $S(\lambda)$ with the discrete representation $s_k$, where k indexes wavelength bins, we can define the cost function
+Replacing $S(\lambda)$ with the discrete representation $s_k$, where k indexes wavelength bins, we can define the cost function (\citealt{Budavari2000b} Equation 7):
 \begin{align}
     \chi^2 =
     \sum_n \frac{1}{\sigma_n^2}(\hat{f}_n(\{\hat{s}_k\}) - f_n)^2 + 
     \sum_k \frac{1}{\Delta_k^2}(\hat{s}_k - s_k)^2, \label{eq:cost_function}
 \end{align}
-with respect to the perturbed template, $\hat{s}_k$. 
+where $\hat{s}_k$ is a new template derived by perturbing $s_k$.
 The optimum perturbation to $s_k$ can then be found via a multidimensional minimization of the cost function. 
 The first term in Equation \ref{eq:cost_function} penalizes differences between the observed fluxes and the perturbed template fluxes, weighted according to $\sigma_n$, the fractional error of the measured flux. 
 The perturbed template fluxes can be calculated with a discretized version of Equation \ref{eq:calc_flux2}:

@@ -11,32 +11,32 @@ The entire data set is summarized in Table \ref{tab:data_sets}, the filters used
     \label{tab:data_sets}
     \centering
     \begin{tabular}{l r c c c c c c l}
-        \hline \hline
+        \toprule \toprule
         Data Set & $N_\text{gal}$ & $f_\text{gal}$ & $z_\text{mean}$ & $z_\text{max}$ & $i$-band range & $i_\text{mean}$ & $\Bar{\sigma}_i$ & Link to Catalog \\
-        \hline
+        \midrule
         
         zCOSMOS  &  14298 & 0.14 & 0.57 & 2.52 & $16.87 \leq i \leq 24.18$ & 21.19 & 0.022 & \url{http://cesam.lam.fr/hstcosmos/} \\
         VVDS     &   6915 & 0.07 & 0.67 & 4.54 & $13.84 \leq i \leq 24.97$ & 20.86 & 0.014 & \url{https://cesam.lam.fr/vvds/index.php} \\
         VIPERS   &  69415 & 0.68 & 0.70 & 2.15 & $17.66 \leq i \leq 23.08$ & 21.38 & 0.017 & \url{http://vipers.inaf.it:8080/} \\
         DEEP2/3  &  10695 & 0.10 & 0.71 & 1.91 & $15.30 \leq i \leq 25.36$ & 21.42 & 0.020 & \url{http://d-scholarship.pitt.edu/36064/} \\
         3D-HST   &   1153 & 0.01 & 1.46 & 3.32 & $19.10 \leq i \leq 25.74$ & 23.56 & 0.027 & \url{http://d-scholarship.pitt.edu/36064/} \\
-        \hline
+        \midrule
         Training &  81980 & 0.80 & 0.69 & 4.54 & $13.84 \leq i \leq 25.74$ & 21.32 & 0.018 & \\
         Test     &  20496 & 0.20 & 0.69 & 3.61 & $16.46 \leq i \leq 25.69$ & 21.34 & 0.018 & \\
-        \hline
+        \midrule
         Total    & 102476 & 1.00 & 0.69 & 4.54 & $13.84 \leq i \leq 25.74$ & 21.33 & 0.018 & \\
         
-        \hline
+        \bottomrule
     \end{tabular}
 \end{table*}
 
 \begin{table}
     \centering
-    \caption{The 19 filters used to measure the galaxy photometry in the data set. Mean wavelength, $\lambda_0 = \int \lambda R(\lambda) d\lambda$, and effective width, $W_\text{eff} = \text{Max}[R(\lambda)]^{-1}$, are given in angstroms. Filters are listed in order of increasing $\lambda_0$. The $i_2$ band is the replacement to the Megacam $i$-band installed in 2007. This filter is named $y$ in the CFHTLS catalogues \citep{Hudelot2012}, but we follow \citet{Zhou2019a} in naming it $i_2$ to avoid confusion with the longer $y$ bands used in Subaru and LSST. The system response functions for each filter were obtained from the Spanish Virtual Observatory (SVO) Filter Profile Service.}
+    \caption{The 19 filters used to measure the galaxy photometry in the data set. Mean wavelength, $\lambda_0 = \int \lambda R(\lambda) d\lambda$, and effective width, $W_\text{eff} = \text{Max}[R(\lambda)]^{-1}$, are given in angstroms. Filters are listed in order of increasing $\lambda_0$. The system response functions for each filter were obtained from the Spanish Virtual Observatory (SVO) Filter Profile Service.}
     \begin{tabular}{l c c r r}
-        \hline \hline
+        \toprule \toprule
         Filter & Telescope & Instrument & $\lambda_0$ & $W_\text{eff}$ \\
-        \hline
+        \midrule
         
         $NUV$ & GALEX  &         &  2343.1 &  767.3 \\
         $u$   & CFHT   & Megacam &  3817.7 &  525.4 \\
@@ -58,7 +58,7 @@ The entire data set is summarized in Table \ref{tab:data_sets}, the filters used
         $Y$   & Subaru & Suprime & 10216.0 &  996.2 \\
         $J$   & UKIRT  & WFCAM   & 12508.5 & 1476.8 \\
         
-        \hline
+        \bottomrule
     \end{tabular}
     \label{tab:filters}
 \end{table}
@@ -87,7 +87,7 @@ The final set contains 6,915 galaxies out to redshifts $z < 4.5$, with magnitude
 
 The VIMOS Public Extragalactic Redshift Survey (VIPERS, \citealt{Scodeggio2018a}) is a dense, large-volume redshift survey focusing on redshifts $0.5 < z < 1.2$.
 We use VIPERS galaxies with spec-z's reliable at the 95\% confidence level (\texttt{zflag} = 2.X, 3.X, 4.X), and with \texttt{photoMask} and \texttt{spectroMask} = 1.
-The redshifts are matched to photometry measured in $NUV$ on GALEX \citep{Martin2005a}, and $u,g,r,i_2,i,z$ on CFHT-Megacam \citep{Hudelot2012}. 
+The redshifts are matched to photometry measured in $NUV$ on GALEX \citep{Martin2005a}, and $u,g,r,i_2,i,z$ on CFHT-Megacam\textsuperscript{\ref{ft:i2}} \citep{Hudelot2012}. 
 The final set contains 71,951 galaxies with redshifts $z < 2.15$ and magnitudes $17.7 < i < 23.3$. 
 
 \subsection{DEEP2 and DEEP3}
@@ -97,7 +97,7 @@ DEEP2 \citep{Newman2013b} consists of four fields; we use galaxies from the firs
 DEEP3 \citep{Cooper2011} expanded on the DEEP2 survey of the EGS.
 Redshifts from these surveys are matched with aperture-corrected photometry provided by \citet{Zhou2019a}.
 We use galaxies with CFHTLS flag 0, SExtractor flags less than 4 in every band, and redshift quality flag $\geq 3$.
-Photometry was measured in $u,g,r,i_2,i,z$ on CFHT-Megacam and $Y$ on Subaru \citep{Miyazaki2002}.
+Photometry was measured in $u,g,r,i_2,i,z$ on CFHT-Megacam\footnote{The $i_2$ band is the replacement to the Megacam $i$-band installed in 2007. This filter is named $y$ in the CFHTLS catalogues \citep{Hudelot2012}, but we follow \citet{Zhou2019a} in naming it $i_2$ to avoid confusion with the longer $y$ bands used in Subaru and LSST. \label{ft:i2}} and $Y$ on Subaru \citep{Miyazaki2002}.
 The final set contains 10,695 galaxies with redshifts $z < 1.91$ and magnitudes $15.3 < i < 25.74$.
 
 
@@ -109,7 +109,6 @@ We select the galaxies with CFHTLS flag 0, SExtractor flags less than 4 in every
 For galaxies in both the DEEP2/3 and 3D-HST sets, we use DEEP2/3 redshifts instead.
 Photometry was measured in $u,g,r,i_2,i,z$ on CFHT-Megacam and $Y$ on Subaru.
 After these cuts, the 3D-HST set contains 1,153 galaxies with redshifts $z < 3.32$ and magnitudes $23.6 < i < 25.7$.
-
 
 \begin{figure}
     \centering

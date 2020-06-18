@@ -19,6 +19,8 @@
 
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1000,stretch=10,shrink=10]{microtype}
 \graphicspath{{./}{figures/}}
 
 % create custom note command
@@ -52,14 +54,16 @@ WA}
 
 
 \begin{abstract}
-    Measuring the redshift of a galaxy is best done with spectroscopy, however modern surveys cannot collect spectra for the billions of galaxies they will image, and thus must rely on photometry to estimate redshift.
-    This is typically done by either training a machine learning code on a training set of galaxy redshifts and photometry, or by matching photometry to templates of galaxy spectra.
-    Here we combine the advantages of the two methods by deriving a set of spectral templates from a training set of galaxy photometry.
-    We derive the training algorithm, and then use it on a set of over $10^5$ galaxies to derive up to 20 spectral templates.
-    We are able to reconstruct spectral features like emission and absorption lines that are at a much higher resolution than the broadband filters used to measure the photometry.
-    We test our templates by estimating redshifts for a test set of galaxies.
-    We find that our training algorithm reduces the fraction of outliers by up to 28\%, bias up to 91\%, and scatter up to 25\%, when compared to estimates using a standard set of spectral templates.
+    Estimating redshifts from broadband photometry is often limited by how accurately we can map the colors of galaxies to an underlying spectral template. 
+    Current techniques utilize  spectrophotometric samples of galaxies or spectra derived from spectral synthesis models. 
+    Both of these approaches have their limitations, either the sample sizes are small and often not representative of the diversity of galaxy colors or the model colors can be biased (often as a function of wavelength) which introduces systematics in the derived redshifts. 
+    In this paper we learn the underlying spectral energy distributions from an ensemble of  $\sim$100K galaxies with measured redshifts and colors. 
+    We show that we are able to reconstruct emission and absorption lines at a significantly higher resolution than the broadband filters used to measure the photometry for a sample of 20 spectral templates. 
+    We find that our training algorithm reduces the fraction of outliers in the derived photometric redshifts by up to 28\%, bias up to 91\%, and scatter up to 25\%, when compared to estimates using a standard set of spectral templates. 
+    We discuss the current limitations of this approach and its applicability for recovering the underlying properties of galaxies.
     Our derived templates and the code used to produce these results are publicly available in a dedicated Github repository: \url{https://github.com/dirac-institute/photoz_template_learning}.
+    \\
+    \medskip
 \end{abstract}
 
 %\keywords{keyword1, keyword2}
@@ -91,8 +95,7 @@ WA}
 
 \acknowledgments
 
-The authors would like to thank Bryce Kalmbach for providing advice in early stages of this work, Sam Schmidt for his help with \bpz\, and Melissa Graham for her code to calculate photo-z statistics.
-This work was supported by the U.S. Department of Energy, Office of Science, under Award DE-SC-0011635.
+The authors would like to thank Bryce Kalmbach for providing advice in early stages of this work, Sam Schmidt for his help with \bpz\, and Melissa Graham for her code to calculate photo-z statistics. This work was supported by the U.S. Department of Energy, Office of Science, under Award DE-SC-0011635.
 
 This research is based on observations made with ESO Telescopes at the La Silla or Paranal Observatories under programme ID(s) 175.A-0839(B), 175.A-0839(D), 175.A-0839(I), 175.A-0839(J), 175.A-0839(H), 175.A-0839(F).
 This research is also based on observations obtained with MegaPrime/MegaCam, a joint project of CFHT and CEA/DAPNIA, at the Canada-France-Hawaii Telescope (CFHT) which is operated by the National Research Council (NRC) of Canada, the Institut National des Science de l'Univers of the Centre National de la Recherche Scientifique (CNRS) of France, and the University of Hawaii.

@@ -38,7 +38,7 @@ N8 with \texttt{INTERP=2} generates 22 total templates.
 Table \ref{tab:interp_comparison} compares the photo-z results using these templates with the results using 22 templates learned from the photometry with \texttt{INTERP=0}.
 It is clear that, as far as $f_\text{out}$ and bias, our method for generating extra templates is superior to the linear interpolation used by \bpz. 
 
-\begin{table}[h]
+\begin{table}
     \caption{Comparison of photo-z results for the N8 templates with \texttt{INTERP=0,2} and the N22 templates with \texttt{INTERP=0}. Statistics quoted are for the full redshift range.}
     \label{tab:interp_comparison}
     \centering
@@ -61,20 +61,3 @@ Templates can be trained for LSST science using the substantial overlap of LSST 
 Our training method can be extended to other domains where you can take a large set of incomplete data, segment that data into classes, and treat the set of unique observations in each class as an ensemble of observations of some class archetype, and thereby reconstruct more complete information.
 We plan to adapt the method to reconstruct supernova lightcurves from supernova photometry.
 This extends the spectra we have been reconstructing into the time domain, and amounts to iteratively learning the shape of a surface rather than a one dimensional distribution.
-
-
-%N8 interp 0- 
-%fcut=0.234
-%fout=0.059, 
-%bias=0.0138 0.0003
-%scatter=0.0397 0.0004
-%N8 interp 2- 
-%fcut=0.209
-%fout=0.060, 
-%bias=0.0123 0.0003
-%scatter=0.0370 0.0004
-%N22 interp 0- 
-%fcut=0.214
-%fout=0.045, 
-%bias=0.0035 0.0003
-%scatter=0.0385 0.0004
