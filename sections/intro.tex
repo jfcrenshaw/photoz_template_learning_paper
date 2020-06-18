@@ -8,7 +8,7 @@ As a result, rather than rely on spectroscopic redshifts (spec-z's), modern surv
 Photo-z's are estimates of galaxy redshifts derived from changes in the colors of galaxies as their spectral energy distributions (SED's) redshift through a series of broadband filters.
 This estimation is typically done using one of two approaches: machine learning (ML) or template fitting (see e.g. \citealt{Schmidt2020} for an evaluation of many examples of the two).
 
-Machine learning approaches train on a data set of photometry with spec-z's and attempt to directly learn an empirical relationship between galaxy colors and redshift (e.g. \citealt{Connolly95}, \texttt{TPZ} \citealt{Kind2013}, \texttt{FlexZBoost} \citealt{Izbicki2017}, \texttt{CMNN} \citealt{Graham2018a}).
+Machine learning approaches train on a data set of photometry with spec-z's and attempt to directly learn an empirical relationship between galaxy colors and redshift (e.g. \citealt{Connolly1995}, \texttt{TPZ} \citealt{Kind2013}, \texttt{FlexZBoost} \citealt{Izbicki2017}, \texttt{CMNN} \citealt{Graham2018a}).
 Once trained, they can predict galaxy redshifts given photometry alone.
 The advantage of ML methods is that the effects of dust, galaxy evolution, and other relevant variables are encoded in the training set and thus accounted for in the derived mapping from colors to redshift.
 The downside of ML methods is that their success relies on how representative and well-controlled the training set is, and that they are unable to extrapolate beyond that set.
