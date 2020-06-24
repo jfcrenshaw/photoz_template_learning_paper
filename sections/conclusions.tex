@@ -3,14 +3,14 @@
 
 We have shown that galaxy SED templates can be learned directly from a data set of broadband photometry.
 Large sets of photometry at various redshifts can be leveraged to reconstruct high resolution features, such as the H$\alpha$, H$\beta$, H$\gamma$, H$\delta$, OII, and OIII emission lines, as well as Na and Mg absorption lines.
-Simple post processing can further reconstruct these features and provide information such as line ratios and equivalent width.
+Simple post processing can further improve the resolution of these reconstructed lines.
 The number of templates learned is variable and can be increased to more continuously sample the space of galaxy spectra and to improve photo-z results.
-However, our current method of generating photometry sets for training is inherently discrete, and a more continuous method needs to be developed to increase the continuity of the templates.
 
 We used our templates to estimate photo-z's for a test set of galaxies using \bpz.
-We found that training the standard set of templates that comes with \bpz\ decreases the bias of the photo-z's by 61\% and the scatter by 21\%, but does not improve the outlier fraction.
+We found that training the standard set of templates that comes with \bpz\ decreases the fraction of bad photo-z's by 21\%, the bias by 63\% and the scatter by 23\%.
 Our own trained naive templates yielded better results.
-We learned a set of 20 templates from the data that reduced the fraction of outliers by 28\%, the bias by 91\%, and the scatter by 25\%.
+We learned a set of 20 templates from the data that reduced the fraction of bad photo-z's by 31\%, the bias by 91\%, and the scatter by 26\%.
+These derived templates outperform the interpolated spectra used by BPZ.
 The improvements in bias are almost sufficient to meet the requirements set for LSST, but another reduction by a factor of two is needed for the scatter.
 
 The templates derived with our training algorithm demonstrate that accurate galaxy spectra can be learned from broadband photometry.

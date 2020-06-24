@@ -9,9 +9,7 @@ See Table \ref{tab:data_sets} for a full summary and Figure \ref{fig:redshift_di
 \label{sect:bpz}
 
 Bayesian Photometric Redshifts (\bpz; \citealt{Benitez2000a}) is a template-based photo-z estimator.
-Template-based estimators take a set of SED templates, assumed to be spanning and exclusive, and calculate observed fluxes over a grid of redshift values. 
-Each set of observed fluxes is then matched to a specific template and redshift determined to be the most likely to have produced the observed colors. 
-
+Template-based estimators take a set of SED templates, assumed to be spanning and exclusive, and calculate observed fluxes over a grid of redshift values.
 For each template, \bpz\ evaluates a $\chi^2$ function at each redshift on the grid:
 \begin{align}
     \chi^2 (z,T,A) = \sum_n \frac{1}{\sigma_n^2} (\, A \, \hat{f}_n(z,T) - f_n \,)^2,
@@ -116,7 +114,7 @@ In this work, photo-z estimates with \texttt{ODDS} $< 0.95$ or $\chi_{\text{mod}
 
 To further evaluate the results of \bpz, we calculate the scatter, bias, and outlier fraction of the photo-z estimates. 
 Photo-z estimates are known to be contaminated with a significant number of outliers.
-This is largely driven by a degeneracy wherein the 1000\AA\ Lyman break in a high redshift galaxy spectrum is shifted to the position of the 4000\AA\ Balmer break in a low redshift galaxy spectrum. 
+This is largely driven by a degeneracy wherein the 1000\AA\ Lyman break in a high redshift galaxy spectrum has similar optical colors to the 4000\AA\ Balmer break in a low redshift galaxy spectrum. 
 \bpz\ attempts to break this degeneracy with the galaxy magnitude prior (i.e. galaxies with brighter apparent magnitudes are more likely to be at a lower redshift), yet there are still a large number of outliers.
 
 To address this issue, we evaluate the statistics of the interquartile range (IQR) of the data, as these measures are robust to the presence of outliers.
@@ -139,13 +137,13 @@ The photo-z estimates that passed the cuts on \texttt{ODDS} and $\chi_\text{mod}
 The values of the photo-z statistics for each template set are printed in each panel.
 For all four template sets, the photo-z estimation is reasonably accurate for spec-z's $z < 1.5$.
 For higher redshifts, there appears to be a systematic bias towards higher photo-z's.
-Reduced photo-z accuracy is generally expected for spec-z's greater than 1.5, as the Balmer break leaves most band sets at around $z=1.4$ and the Lyman break does not enter most band sets until $z=2.5$.
+Reduced photo-z accuracy is generally expected for spec-z's greater than 1.5, as the Balmer break leaves the optical bands at around $z=1.4$ and the Lyman break does not enter the ultraviolet bands until $z=2.5$.
 
 For the CWW+SB4 templates, the training algorithm decreased the fraction of photo-z's cut by 25\%, the bias by 63\%, and the scatter by 23\%, but did not improve the outlier fraction.
 We were able to achieve similar photo-z results using the trained N8 and N16 template sets, demonstrating that our training algorithm can be used to generate photo-z templates without any a priori information about galaxy spectra.
 Compared to the CWW+SB4 templates, N8 templates decreased $f_\text{cut}$ by 31\%, bias by 59\%, and scatter by 25\%.
 The N16 templates decreased $f_\text{cut}$ by 35\%, bias by 84\%, and scatter by 30\%.
-However, both sets have slightly increased outlier fractions.
+In all cases, the training algorithm decreases the fraction of bad photo-z's ($f_\text{cut} + f_\text{out}$), the bias, and the scatter.
 
 Comparing the results for the N8 and N16 template sets indicate that increasing the number of templates can reduce the fraction cut, and the bias and scatter of the photo-z estimates.
 To further investigate this relationship, we calculate the photo-z statistics for a range of template numbers, the results of which are in Figure \ref{fig:Ntemplates}.
@@ -167,7 +165,7 @@ For comparison, plotted in gray are the LSST science requirements for the metric
 The SRD lists the following minimum requirements to enable the envisioned LSST cosmological studies: root-mean-square error $< 0.02(1+z_\text{phot})$; $f_\text{out} < 10\%$; average bias $<0.003(1+z_\text{phot})$.
 The SRD lists these requirements for an $i<25$, magnitude-limited sample of four billion galaxies from $0.3 < z < 3.0$.
 For comparison, our test set consists of 20,496 galaxies with $i < 25.7$, in the range $z < 3.6$, including 19,391 galaxies with $i < 25$, in the range $0.3 < z < 3.0$.
-In Figure \ref{fig:photoz_binned}, you can see that for redshifts $0.3 < z < 1.2$ we are able to achieve an appropriate outlier fraction, and that our training algorithm makes great progress on the bias, almost reaching the threshold required for LSST.
+In Figure \ref{fig:photoz_binned}, we show that for redshifts $0.3 < z < 1.2$ we are able to achieve an appropriate outlier fraction, and that our training algorithm makes great progress on the bias, almost reaching the threshold required for LSST.
 We also make modest progress on the scatter, but reduction by another factor of two is still required.
 Beyond redshift $z=1.2$, all of our metrics far exceed the LSST science requirements.
 

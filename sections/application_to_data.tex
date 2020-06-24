@@ -3,7 +3,7 @@
 
 Using the training algorithm described in Section \ref{sect:template_training}, we will learn galaxy SED templates directly from the broadband photometry described in Section \ref{sect:data}.
 We divide the data set into a training and test set, consisting of random 80\% and 20\% samples respectively of the entire data set.
-The training set will be used to train the SED templates, while the test set will be used to test the learned templates via photo-z estimation (see Section \ref{sect:photoz}).
+The training set will be used to train the SED templates, while the test set will be used to evaluate the learned templates via photo-z estimation (see Section \ref{sect:photoz}).
 The training set consists of 81,980 galaxies, with mean redshift $z_\text{mean} = 0.69$, max redshift $z_\text{max} = 4.54$, and magnitudes $13.8 < i < 25.7$.
 A full summary of the set can be seen in Table \ref{tab:data_sets}, and the redshift distribution can be seen in Figure \ref{fig:redshift_dist}.
 
@@ -11,10 +11,10 @@ Eight naive templates were chosen to represent the underlying SED shapes of the 
 They are ``naive'' because they are simply chosen by eye to roughly divide the photometry into groups by spectral shape, but otherwise are not based on any theoretical models or observed SED's.
 Each of the naive templates is a log-normal function,
 \begin{align}
-    S(\lambda) \propto \frac{1}{\lambda} \exp{\left[ -\frac{1}{2\sigma^2} \left( \ln{\frac{\lambda}{\text{mode}(\lambda)}}-\sigma^2 \right)^2 \right]},
+    S(\lambda) \propto \frac{1}{\lambda} \exp{\left[ -\frac{1}{2\eta^2} \left( \ln{\frac{\lambda}{\text{mode}(\lambda)}}-\eta^2 \right)^2 \right]},
 \end{align}
-normalized at $\lambda = 5000$ \AA, with $\text{mode}(\lambda)$ in the range $1000$ to $5500$ \AA\  and $\sigma$ in the range $0.35$ to $0.9$. 
-The templates extend to $15000$ \AA\ with 100 \AA resolution.
+normalized at $\lambda = 5000$ \AA, with $\text{mode}(\lambda)$ in the range $1000$ to $5500$ \AA\  and $\eta$ in the range $0.35$ to $0.9$. 
+The templates extend to $15000$ \AA\ with 100 \AA\ resolution.
 These eight templates (hereafter N8) can be seen together with with their original training sets in Figure \ref{fig:N8_untrained}.
 
 \begin{figure*}
@@ -29,11 +29,11 @@ The convergence of the templates is evaluated via the weighted mean square error
 \begin{align}
     \text{wMSE} = \sum_n \frac{1}{\sigma_n^2}(\hat{f}_n(\{\hat{s}_k\}) - f_n)^2.
 \end{align}
-Each template is perturbed until the change in wMSE is less than 3\%.
+Each template is perturbed until the change in wMSE is less than 3\%, which was chosen empirically to balance sufficient template reconstruction and the algorithm's runtime.
 When every template has converged to its current photometry set, new photometry sets are generated.
 Only those templates whose new photometry sets result in a greater than 3\% change in wMSE resume perturbation with their new sets.
 This process is iterated until no template has a new photometry set that results in a greater than 3\% change in wMSE.
-This indicates that the photometry is most accurately sorted into distict sets, and that further perturbation is unlikely to improve the photometry-matching results.
+This indicates that the photometry is sorted into distinct sets, and that further perturbation is unlikely to improve the photometry-matching results.
 
 The progress of the training algorithm is shown in Figure \ref{fig:training} for the template N8-1.
 The left panel shows the progress of the perturbation algorithm as it deforms the originally smooth N8-1 template to better match the colors of the matched photometry sets.
@@ -48,18 +48,18 @@ Eventually, all of the points are orange, indicating that after each new photome
 \begin{figure*}
     \centering
     \includegraphics{figures/N8_1_training_history.pdf}
-    \caption{Training of N8-1. Left: the initial N8-1 template is iteratively perturbed to better represent the colors of its photometry set. The final template is redder and has more structure. Middle: wMSE of the N8-1 template throughout the training process. Orange points represent the wMSE after a photometry matching stage, while blue points represent the wMSE after a perturbation. Right: fractional change in the wMSE. Orange points represent the fractional change due to a new photometry matching stage, while blue points represent a fractional change due to a perturbation. The dotted black lines show the $\pm 0.03$ cutoff. When a perturbation results in a fractional change of magnitude less than 0.03, perturbation is halted and new photometry is matched. After the sixth photometry match, the template is not perturbed because it already sufficiently matches the photometry.}
+    \caption{Training of N8-1. Left: the initial (light blue) N8-1 template is iteratively perturbed to better represent the colors of its photometry set. The final (dark blue) template is redder and has more structure. Middle: wMSE of the N8-1 template throughout the training process. Orange points represent the wMSE after a photometry matching stage, while blue points represent the wMSE after a perturbation. Right: fractional change in the wMSE. Orange points represent the fractional change due to a new photometry matching stage, while blue points represent a fractional change due to a perturbation. The dotted black lines show the $\pm 0.03$ cutoff. When a perturbation results in a fractional change of magnitude less than 0.03, perturbation is halted and new photometry is matched. After the sixth photometry match, the template is not perturbed because it already sufficiently matches the photometry.}
     \label{fig:training}
 \end{figure*}
 
 The training continues for 12 rounds, and takes approximately 15 minutes.
 The final results for the N8 templates can be seen in Figure \ref{fig:N8_trained}.
 The templates are now a much better match to the photometry and more closely resemble physical galaxy spectra.
-Most of the templates have a Balmer Break at 4000 \AA, although this was essentialy already present in the initial templates.
-In addition, there are now at a much higher resolution than the broadband filters used for photometry, some of which are labeled with gray lines in Figure \ref{fig:N8_trained}.
+Most of the templates have a Balmer Break at 4000 \AA, although this was essentially already present in the initial templates.
+In addition, there are now emission and absorption lines visible in the spectra at a much higher resolution than the broadband filters used for the photometry (some of which are labeled with gray lines in Figure \ref{fig:N8_trained}).
 Template N8-1 displays Mg and Na absorption lines and template N8-4 contains the beginnings of $H\alpha$ and $H\beta$ emission lines.
 Templates N8-6, N8-7, and N8-8 contain what appear to be H$\alpha$, H$\beta$, H$\gamma$, H$\delta$, OII, and OIII emission lines (see Section \ref{sect:speclines} for more analysis).
-The emergence of these high resolution features from a large ensemble of low resolution data is the one of the defining features of our method.
+The emergence of these high resolution features from a large ensemble of low resolution data is the one of the defining features of this method.
 
 \begin{figure*}
     \centering
@@ -81,13 +81,13 @@ However, the N16 set shows a more gradual transition from red to blue.
     \label{fig:N16_trained}
 \end{figure*}
 
-In addition to starting from naive templates, one can start with templates derived from spectral synthesis models or observations of local galaxy spectra. 
+In addition to starting from naive templates, one can start with templates derived from spectral synthesis models or observations of local galaxy spectra \citep{Budavari2000b, Csabai2000}.
 Here we apply the training algorithm to a standard set of SED templates commonly used for photo-z estimation (e.g. \bpz, see Section \ref{sect:bpz}).
 This set (hereafter CWW+SB4) consists of four templates from \citet{Coleman1980a} and two starburst templates from \citet{Kinney1996a}, the latter of which were added to account for faint blue galaxies in the HDF-N. 
 These six templates were recalibrated by \citet{Benitez2004a} to correct for systematic differences between the observed and predicted galaxy colors in the HDF-N and other spectroscopic catalogs. 
 In addition to these six, CWW+SB4 contains two synthetic starburst templates from \citet{Bruzual2003b}, added by \citet{Coe2006a} to account for even bluer galaxies in the UDF.
 
-The CWW+SB4 templates were trained with $w=2$ for 210 minutes over 62 iterations.
+The CWW+SB4 templates were trained with $w=2$ for 46 minutes over 32 iterations.
 The results of the training can be seen in Figure \ref{fig:cwwsb4_trained}.
 The original templates are plotted in blue, with the trained templates plotted in black, along with the final photometry sets in orange.
 You can see that the El and Sbc templates have barely been altered. The remaining templates have all systematically become redder.

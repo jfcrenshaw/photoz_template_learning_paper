@@ -2,12 +2,12 @@
 \label{sect:template_training}
 
 In this section, we will present an approach for learning SED templates directly from broadband photometry, using a modified version of the algorithm developed in \citet{Budavari2000b}. 
-If we assume that the galaxies in our data set are sampled from a small set of underlying spectra, the SED templates, and we know the spectroscopic redshift for each galaxy, we can shift the photometry to the rest frame and treat each observation of a redshifted galaxy as a \textit{rest frame observation} of one of the templates with a different set of effective filters. 
+If we assume that the galaxies in our data set are sampled from a small set of underlying spectra, the SED templates, and we know the spectroscopic redshift for each galaxy, we can shift the photometry to the restframe and treat each observation of a redshifted galaxy as a \textit{restframe observation} of one of the templates with a different set of effective filters. 
 With a large enough data set, the wavelengths of the effective filters will overlap substantially. 
 This over-sampling allows us to recover higher resolution features in the templates, even though the data are low resolution observations of different galaxies.
 
 Let us assume we have a set of SED templates as a starting point, which can represent rudimentary guesses and need not resemble true galaxy spectra. 
-In the first part of this section, we describe a method by which we can create a training set of broadband photometry for each template from a large data set of galaxy photometry. 
+In the first part of this section, we describe a method by which we create a training set of broadband photometry for each template from a large data set of galaxy photometry. 
 In the second part, we derive the perturbation algorithm that is used to train each SED template on its corresponding photometry set. 
 The full training algorithm is an expectation maximization that consists of iterating these two steps: matching photometry to templates, and perturbing templates to better match the photometry.
 This process is iterated until the SED templates converge. 
@@ -20,7 +20,7 @@ In the final part, we discuss a heuristic for selecting the training hyperparame
 \label{sect:training_sets}
         
 Assume we have a set of naive SED templates and a large set of observed fluxes, $\{f_m\}$, with known spectroscopic redshifts, $z_m$. 
-Our goal is to train each template on an appropriate subset of the $\{f_m\}$, so that the naive templates better represent the true set of SED templates from which the galaxy spectra are sampled. 
+Our goal is to train each template on an appropriate subset of the $\{f_m\}$, so that the naive templates better represent the colors of the galaxies. 
 To assemble these training sets, we consider subsets $\{f_n\} \subset \{f_m\}$, corresponding to the observed fluxes of a single galaxy at redshift $z$, where the subscript $n$ denotes different filters. 
 We compare these observed fluxes with the template fluxes $\{\hat{f}_n\}$, where
 \begin{align}
@@ -33,14 +33,13 @@ For photon counting detectors,
 \end{align}
 where $T(\lambda)$ is the system response function that captures the transmittance of the atmosphere and the response of the detector.
 
-The observed fluxes are assigned to the template whose shape is most similar, which is determined by normalizing the observed and template fluxes in the same band and picking the template that minimizes the squared differences of the fluxes. 
+The observed fluxes are assigned to the template whose colors are most similar, which is determined by normalizing the observed and template fluxes in the same band and picking the template that minimizes the squared differences of the fluxes. 
 The normalization band is chosen by selecting the band for which the ratio $\hat{f}_n / f_n$ is the median of the flux ratios for that galaxy. 
-By performing this matching and renormalization for each galaxy in the photometry set, we assemble matched photometry sets containing many galaxies for each template.
+By performing this matching and renormalization for each galaxy in the photometry set, we associate a subset of the galaxies (and the corresponding photometry) to each template.
 
-Examining how the complete photometry set is divided into the smaller matched sets is helpful in assembling the initial set of templates. 
-The initial templates should be selected so that the corresponding matched sets divide the galaxies by the different spectral shapes visible in the photometry. 
-It is also important that each training set contains a sufficient number of fluxes distributed across the wavelengths of interest, as the perturbation algorithm derived in the next section relies on over-sampling to reconstruct higher resolution features of the SED templates.
-
+Examining how the galaxies are assigned to the individual templates is helpful in selecting the initial set of templates.
+The initial templates should be chosen so that the matching algorithm roughly divides the galaxies by their colors.
+It is also important that each set contains a sufficient number of fluxes distributed across the wavelengths of interest, as the perturbation algorithm derived in the next section relies on over-sampling to reconstruct higher resolution features of the SED templates.
 
 
 
@@ -63,7 +62,7 @@ Replacing $S(\lambda)$ with the discrete representation $s_k$, where k indexes w
 \end{align}
 where $\hat{s}_k$ is a new template derived by perturbing $s_k$.
 The optimum perturbation to $s_k$ can then be found via a multidimensional minimization of the cost function. 
-The first term in Equation \ref{eq:cost_function} penalizes differences between the observed fluxes and the perturbed template fluxes, weighted according to $\sigma_n$, the fractional error of the measured flux. 
+The first term in Equation \ref{eq:cost_function} penalizes differences between the observed fluxes and the perturbed template fluxes, weighted according to $\sigma_n$ (the fractional error of the measured flux). 
 The perturbed template fluxes can be calculated with a discretized version of Equation \ref{eq:calc_flux2}:
 \begin{align}
     \hat{f}_n(\{\hat{s}_k\}) = \sum_k \hat{s}_k \, r_{k'}^n \Delta\lambda_{k'}
@@ -117,8 +116,7 @@ While the trained template is a smoothed version of the original, high resolutio
 In practice, higher $\Delta_k$ can be chosen so that fewer iterations are required in the training; a lower value was chosen here so that the effects of successive iterations can be more clearly seen.
 See Section \ref{sect:hyperparameters} for further discussion of selecting the hyperparameters.
 
-The perturbation algorithm changes the shape of the template SED's so that re-running the photometry matching will now results in different sets than previously obtained.
-As better approximations of the true underlying SED templates are generated by the perturbation algorithm, the photometry matching algorithm will do a better and better job at dividing the photometry data into sets that characterize distinct spectral shapes. 
+The perturbation algorithm changes the shape of the template SED's so that re-running the photometry matching will now result in different subsets of galaxies assigned to each template.
 The full training algorithm is iterated until the SED templates converge.
 
 
@@ -129,12 +127,12 @@ The full training algorithm is iterated until the SED templates converge.
 
 The success of the training algorithm depends on the chosen hyperparameters.
 The first is the number of templates. 
-As discussed in Section \ref{sect:training_sets}, this choice can be made by using the photometry matching algorithm and choosing the appropriate number of templates to roughly separate out the different spectral shapes displayed in the photometry.
-For further discussion of how the number of templates effects photo-z results, see Section \ref{sect:photoz_results}.
+As discussed in Section \ref{sect:training_sets}, this choice can be made by using the photometry matching algorithm and choosing the appropriate number of templates to approximately separate out the different spectral shapes displayed in the photometry.
+For further discussion of how the number of templates affects photo-z results, see Section \ref{sect:photoz_results}.
 
 The rest of the hyperparameters consist of the set of $\Delta_k$.
 These parameters, which set the relative weighting of the regularization term in Equation \ref{eq:cost_function}, determine the stability and speed of the training algorithm.
-If the $\Delta_k$ are too large, training will be very slow and a large number of perturbation and training rounds will be required. 
+If the $\Delta_k$ are too large, training will be very slow and a large number of iterations will be required. 
 If the $\Delta_k$ are too low, the training becomes unstable and the final templates will be over-fit.
 Here we present a heuristic for selecting an appropriate value to balance these two extremes.
 

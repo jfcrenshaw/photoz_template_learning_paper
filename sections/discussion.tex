@@ -2,29 +2,27 @@
 \label{sect:discussion}
 
 In Section \ref{sect:template_training}, we demonstrated that our training algorithm could learn galaxy SED templates from photometry at a high resolution relative to the filters used to make the observations.
-We are able to well learn a set of templates over twice the size of the standard CWW+SB4, showing a smooth progression of galaxy colors from red to blue.
+We are able to learn a set of templates over twice the size of the standard CWW+SB4, showing a smooth progression of galaxy colors from red to blue.
 The spectra contain relatively high resolution spectral features, and post-processing can further reconstruct emission and absorption lines.
 However, our method has a number of limitations.
 
 The success of our algorithm relies on the ability to generate a naive set of templates as a starting point that will reliably divide the photometry by the spectral type of the galaxy. 
 This is relatively easy to accomplish for fewer than 20 templates, as was demonstrated by our simple photometry matching procedure and the log-normal templates we used.
-This is a strength of the algorithm, as it is relatively robust to the starting templates, however if you wish to derive more than 20 templates from the photometry, more care must be taken in the division of the photometry set.
-Attempts at reconstructing more than 20 templates usually result in some templates not having sufficient photometry across the entire wavelength range of interest.
+This is a strength of the algorithm as it is relatively robust to the starting templates. If, however, you wish to derive more than 20 templates from the photometry, care must be taken in the division of the photometry set to ensure there are sufficient galaxies in each subset to fully sample the entire wavelength range for the templates.
 In addition, the inherently discretized way in which we divide the photometry set stands in the way of generating a truly continuous set of SED templates.
-For a more continuous set of templates, it would be advantageous to devise a method to assemble more continuous, non-exclusive photometry sets.
-For example, one might imagine taking two ``adjacent'' photometry sets, and assembling a photometry set ``between'' them by taking the bluer half on one set together with the redder half of the other.
+For a more continuous set of templates one might imagine taking two ``adjacent'' photometry sets, and assembling a photometry set ``between'' them by taking the bluer half on one set together with the redder half of the other. 
+Equally we could construct a moving window that progressively subdivides a sample based on color (with galaxies allowed to be present in more than one subet).
 
 Our data consists only of broadband photometry, however our algorithm would work equally well with narrow bands as well.
 Combining broadband and narrow band photometry would expand the data set and further constrain the templates.
 In particular, the addition of narrowband photometry should increase the resolution of spectral features recovered, and may allow one to resolve features such as the H$\gamma$ and H$\delta$ emission lines that we had to treat as a single feature.
 One could also include bands from a wider range of wavelengths to increase the wavelength range over which the templates are constrained.
-We attempted to include fluxes from the $K$-bands included with the zCOSMOS and VIPERS catalogs to learn the high-wavelength tails of the templates, but there appeared to be systematic normalization issues we did not resolve.
+We attempted to include fluxes from the $K$-bands included with the zCOSMOS and VIPERS catalogs to learn  infra-red wavelengths for the templates, but there appeared to be systematic calibration issues in the data that we could not resolve.
 There is evidence that the inclusion of near-infrared and near-ultraviolet photometry in photo-z estimation can reduce outliers and scatter by up to 50\% each \citep{Graham2020}.
 
 In addition, for the results presented here, we used only galaxy fluxes with SNR greater than 20.
 One can use galaxies with lower SNR if outlier fluxes are removed from the photometry sets before training (we had success using an Isolation Forest; \citealt{Ting2008,Liu2012}).
 However, lowering the SNR of the photometry generally reduces the resolution of the structure you can reconstruct.
-For even better results, it would be good to check that all of the photometry is aperture corrected, properly normalized, etc.
 
 The training algorithm itself could be made more sophisticated by restoring the wavelength dependence of the hyperparameter $\Delta_k$.
 We also hope to move beyond an iterative regression approach into deep learning, perhaps using Generative Adversarial Networks (GANs; \citealt{Goodfellow2014}).
@@ -58,6 +56,5 @@ It is clear that, as far as $f_\text{out}$ and bias, our method for generating e
 The photo-z estimation with our learned template sets outperforms the results of the standard CWW+SB4 templates, however, more work needs to be done to reach the requirements set for LSST, especially for redshifts $z>1$.
 Templates can be trained for LSST science using the substantial overlap of LSST photometry with the eBoss \citep{Dawson2016} and Dark Energy Spectroscopic Instrument (DESI; \citealt{DESICollaboration2016}) surveys which will provide hundreds of thousands of spec-z's for LSST photo-z training and calibration \citep{Schmidt2014,Newman2015}.
 
-Our training method can be extended to other domains where you can take a large set of incomplete data, segment that data into classes, and treat the set of unique observations in each class as an ensemble of observations of some class archetype, and thereby reconstruct more complete information.
+Our training method can be extended to other domains (e.g.\ stellar spectral reconstruction) where you can take a large set of incomplete data, segment that data into classes, and treat the set of unique observations in each class as an ensemble of observations of some class archetype, and thereby reconstruct more complete information.
 We plan to adapt the method to reconstruct supernova lightcurves from supernova photometry.
-This extends the spectra we have been reconstructing into the time domain, and amounts to iteratively learning the shape of a surface rather than a one dimensional distribution.
