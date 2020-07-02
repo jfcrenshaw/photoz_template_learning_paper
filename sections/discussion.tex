@@ -36,22 +36,16 @@ N8 with \texttt{INTERP=2} generates 22 total templates.
 Table \ref{tab:interp_comparison} compares the photo-z results using these templates with the results using 22 templates learned from the photometry with \texttt{INTERP=0}.
 It is clear that, as far as $f_\text{out}$ and bias, our method for generating extra templates is superior to the linear interpolation used by \bpz. 
 
-\begin{table}
-    \caption{Comparison of photo-z results for the N8 templates with \texttt{INTERP=0,2} and the N22 templates with \texttt{INTERP=0}. Statistics quoted are for the full redshift range.}
-    \label{tab:interp_comparison}
-    \centering
-    \begin{tabular}{c c c c c c c}
-        \hline \hline
-        & \texttt{INTERP} & Total N & $f_\text{cut}$ & $f_\text{out}$ & Bias & Scatter \\
-        \hline
-
+\begin{deluxetable}{c C C C C C C}
+    \tablecaption{Comparison to BPZ Interpolation \label{tab:interp_comparison}}
+    \tablehead{\colhead{\texttt{INTERP=0}} & \colhead{Total N} & \colhead{$f_\text{cut}$} & \colhead{$f_\text{out}$} & \colhead{Bias} & \colhead{Scatter}}
+    \startdata
         N8  & 0 &  8 & 0.228 & 0.058 & 0.014 & 0.040 \\
         N8  & 2 & 22 & 0.209 & 0.060 & 0.012 & 0.037 \\
         N22 & 0 & 22 & 0.214 & 0.045 & 0.004 & 0.039 \\
-
-        \hline
-    \end{tabular}
-\end{table}
+    \enddata
+    \tablecomments{ Total N is the total number of SED templates in the set, including those interpolated by \bpz. Statistics quoted are for the full redshift range.}
+\end{deluxetable}
 
 The photo-z estimation with our learned template sets outperforms the results of the standard CWW+SB4 templates, however, more work needs to be done to reach the requirements set for LSST, especially for redshifts $z>1$.
 Templates can be trained for LSST science using the substantial overlap of LSST photometry with the eBoss \citep{Dawson2016} and Dark Energy Spectroscopic Instrument (DESI; \citealt{DESICollaboration2016}) surveys which will provide hundreds of thousands of spec-z's for LSST photo-z training and calibration \citep{Schmidt2014,Newman2015}.

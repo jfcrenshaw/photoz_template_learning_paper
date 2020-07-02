@@ -87,7 +87,7 @@ Then, we have:
 \end{align}
 which can be analytically minimized:
 \begin{align}
-    \frac{\partial \chi^2}{\partial \xi_l} = 0 \implies \sum_k M_{lk} \xi_k = \nu_l.
+    \frac{\partial \chi^2}{\partial \xi_l} = 0 \implies \sum_k M_{lk} \tilde{\xi}_k = \nu_l.
 \end{align}
 The matrix $M$ and vector $\nu$ are defined
 \begin{align}
@@ -97,8 +97,8 @@ The matrix $M$ and vector $\nu$ are defined
     \end{gathered}
 \end{align}
 where $\delta_{lk}$ is the Kronecker delta.
-One can numerically solve for $\xi$. 
-The perturbed spectrum is then $\hat{s}_k = s_k + \xi_k$. 
+One can then solve for $\tilde{\xi}$. 
+The perturbed spectrum is then $\hat{s}_k = s_k + \tilde{\xi}_k$. 
 
 \begin{figure}
     \centering
@@ -146,7 +146,7 @@ To this end, we make the following approximation:
 where $N_k \equiv \sum_k$ and $N_n \equiv \sum_n$. 
 This permits the following approximation of the ratio $w$: 
 \begin{align}
-    w = \frac{\sum_k \frac{1}{\Delta^2} \left(\hat{s}_k - s_k \right)^2}{\sum_n \frac{1}{\sigma_n^2} \left(\hat{f}_n - f_n \right)^2} \sim \frac{N_k/\Delta^2}{N_n/\Bar{\sigma}^2},
+    w = \frac{\sum_k \Delta^{-2} \left(\hat{s}_k - s_k \right)^2}{\sum_n \sigma_n^{-2} \left(\hat{f}_n - f_n \right)^2} \sim \frac{N_k/\Delta^2}{N_n/\Bar{\sigma}^2},
 \end{align}
 where $\Bar{\sigma} = \sum_n \sigma_n/N_n$. 
 Then, for a desired ratio $w$, the requisite $\Delta$ can be approximated:

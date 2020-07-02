@@ -123,26 +123,19 @@ For each line, we calculate the amplitude relative to H$\beta$, and the effectiv
 These values can be seen in Table \ref{tab:speclines}.
 Note that the amplitudes of our reconstructed H$\gamma$ and H$\delta$ lines relative to H$\beta$ are approximately three times greater than those listed in \citet{Groves2012a}.
 
-\begin{table}
-    \centering
-    \caption{The emission lines reconstructed in the N8-6, N8-7, and N8-8 templates. For each line, we list the amplitude relative to H$\beta$, $r$, and the effective width, $W_\lambda$.}
-    \begin{tabular}{c c | c r | c r | c r }
-        \hline \hline
-         & & \multicolumn{2}{c|}{N8-6} & \multicolumn{2}{c|}{N8-7} & \multicolumn{2}{c}{N8-8} \\
-        \hline
-         & $\lambda$ & $r$ & $W_\lambda$ & $r$ & $W_\lambda$ & $r$ & $W_\lambda$ \\
-        \hline
+\begin{deluxetable}{c C C R C R C R }
+    \tablecaption{Reconstructed Emission Lines \label{tab:speclines}}
+    \tablehead{ \colhead{} & \colhead{} & \multicolumn{2}{c}{N8-6} & \multicolumn{2}{c}{N8-7} & \multicolumn{2}{c}{N8-8} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \colhead{Line} & \colhead{$\lambda$} & \colhead{$r$} & \colhead{$W_\lambda$} & \colhead{$r$} & \colhead{$W_\lambda$} & \colhead{$r$} & \colhead{$W_\lambda$}}
+    \startdata
         H$\alpha$ & 6563 & 2.86 & 132.7 & 2.86 & 103.3 & 2.86 & 115.2 \\
         H$\beta$  & 4861 & 1.00 &  32.9 & 1.00 &  26.4 & 1.00 &  30.3 \\
         H$\gamma$ & 4340 & 1.18 &  36.5 & 1.31 &  31.6 & 1.28 &  37.1 \\
         H$\delta$ & 4102 & 0.65 &  19.6 & 0.72 &  16.7 & 0.71 &  20.7 \\
         OII       & 3727 & 2.04 &  58.1 & 1.27 &  32.0 & 0.74 &  24.4 \\
         OIII      & 5007 & 2.08 &  68.0 & 2.42 &  66.1 & 0.86 &  27.3 \\
-
-        \hline
-    \end{tabular}
-    \label{tab:speclines}
-\end{table}
+    \enddata
+    \tablecomments{ For each emission line, $r$ is the amplitude relative to H$\beta$, and $W_\lambda$ is the effective width in angstroms.}
+\end{deluxetable}
 
 \begin{figure*}
     \centering

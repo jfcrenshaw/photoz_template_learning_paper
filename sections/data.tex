@@ -6,62 +6,51 @@ Our set consists of 102,476 galaxies with redshifts $z < 4.54$ and $i$-band magn
 For all surveys, we use galaxies with highly reliable spec-z's, photometry in one of the $i$-bands, and photometry in at least three bands with signal-to-noise ratio SNR $> 20$.
 The entire data set is summarized in Table \ref{tab:data_sets}, the filters used to measure the photometry are listed in Table \ref{tab:filters}, and the redshift distributions are shown in Figure \ref{fig:redshift_dist}.
 
-\begin{table*}
-    \caption{Summary of the spec-z and photometry data sets. $N_\text{gal}$ is the total number of galaxies in the set, $f_\text{gal}$ is the fraction of galaxies in the set, and $\Bar{\sigma}_i$ is the mean fractional flux error for the $i$-band photometry.}
-    \label{tab:data_sets}
-    \centering
-    \begin{tabular}{l r c c c c c c l}
-        \toprule \toprule
-        Data Set & $N_\text{gal}$ & $f_\text{gal}$ & $z_\text{mean}$ & $z_\text{max}$ & $i$-band range & $i_\text{mean}$ & $\Bar{\sigma}_i$ & Link to Catalog \\
+\begin{deluxetable*}{l R C C C C C C l}
+    \centerwidetable
+    \tablecaption{Summary of the Spectrophotometric Data Sets \label{tab:data_sets}}
+    \tablehead{\colhead{Data Set} & \colhead{$N_\text{gal}$} & \colhead{$f_\text{gal}$} & \colhead{$z_\text{mean}$} & \colhead{$z_\text{max}$} & \colhead{$i$-band range} & \colhead{$i_\text{mean}$} & \colhead{$\Bar{\sigma}_i$} & \colhead{Link to Catalog}}
+    \startdata
+        zCOSMOS  &  14298 & 0.14 & 0.57 & 2.52 & 16.87 \leq i \leq 24.18 & 21.19 & 0.022 & \url{http://cesam.lam.fr/hstcosmos/} \\
+        VVDS     &   6915 & 0.07 & 0.67 & 4.54 & 13.84 \leq i \leq 24.97 & 20.86 & 0.014 & \url{https://cesam.lam.fr/vvds/index.php} \\
+        VIPERS   &  69415 & 0.68 & 0.70 & 2.15 & 17.66 \leq i \leq 23.08 & 21.38 & 0.017 & \url{http://vipers.inaf.it:8080/} \\
+        DEEP2/3  &  10695 & 0.10 & 0.71 & 1.91 & 15.30 \leq i \leq 25.36 & 21.42 & 0.020 & \url{http://d-scholarship.pitt.edu/36064/} \\
+        3D-HST   &   1153 & 0.01 & 1.46 & 3.32 & 19.10 \leq i \leq 25.74 & 23.56 & 0.027 & \url{http://d-scholarship.pitt.edu/36064/} \\
         \midrule
-        
-        zCOSMOS  &  14298 & 0.14 & 0.57 & 2.52 & $16.87 \leq i \leq 24.18$ & 21.19 & 0.022 & \url{http://cesam.lam.fr/hstcosmos/} \\
-        VVDS     &   6915 & 0.07 & 0.67 & 4.54 & $13.84 \leq i \leq 24.97$ & 20.86 & 0.014 & \url{https://cesam.lam.fr/vvds/index.php} \\
-        VIPERS   &  69415 & 0.68 & 0.70 & 2.15 & $17.66 \leq i \leq 23.08$ & 21.38 & 0.017 & \url{http://vipers.inaf.it:8080/} \\
-        DEEP2/3  &  10695 & 0.10 & 0.71 & 1.91 & $15.30 \leq i \leq 25.36$ & 21.42 & 0.020 & \url{http://d-scholarship.pitt.edu/36064/} \\
-        3D-HST   &   1153 & 0.01 & 1.46 & 3.32 & $19.10 \leq i \leq 25.74$ & 23.56 & 0.027 & \url{http://d-scholarship.pitt.edu/36064/} \\
+        Training &  81980 & 0.80 & 0.69 & 4.54 & 13.84 \leq i \leq 25.74 & 21.32 & 0.018 & \\
+        Test     &  20496 & 0.20 & 0.69 & 3.61 & 16.46 \leq i \leq 25.69 & 21.34 & 0.018 & \\
         \midrule
-        Training &  81980 & 0.80 & 0.69 & 4.54 & $13.84 \leq i \leq 25.74$ & 21.32 & 0.018 & \\
-        Test     &  20496 & 0.20 & 0.69 & 3.61 & $16.46 \leq i \leq 25.69$ & 21.34 & 0.018 & \\
-        \midrule
-        Total    & 102476 & 1.00 & 0.69 & 4.54 & $13.84 \leq i \leq 25.74$ & 21.33 & 0.018 & \\
-        
-        \bottomrule
-    \end{tabular}
-\end{table*}
+        Total    & 102476 & 1.00 & 0.69 & 4.54 & 13.84 \leq i \leq 25.74 & 21.33 & 0.018 & \\
+    \enddata
+    \tablecomments{$N_\text{gal}$ is the total number of galaxies in the set, $f_\text{gal}$ is the fraction of all galaxies in the set, and $\Bar{\sigma}_i$ is the mean fractional flux error in the $i$-band.}
+\end{deluxetable*}
 
-\begin{table}
-    \centering
-    \caption{The 19 filters used to measure the galaxy photometry in the data set. Mean wavelength, $\lambda_0 = \int \lambda R(\lambda) d\lambda$, and effective width, $W_\text{eff} = \text{Max}[R(\lambda)]^{-1}$, are given in angstroms. Filters are listed in order of increasing $\lambda_0$. The system response functions for each filter were obtained from the Spanish Virtual Observatory (SVO) Filter Profile Service.}
-    \begin{tabular}{l c c r r}
-        \toprule \toprule
-        Filter & Telescope & Instrument & $\lambda_0$ & $W_\text{eff}$ \\
-        \midrule
-        
-        $NUV$ & GALEX  &         &  2343.1 &  767.3 \\
-        $u$   & CFHT   & Megacam &  3817.7 &  525.4 \\
-        $B$   & CFHT   & CFH12k  &  4342.5 &  873.6 \\
-        $B_J$ & Subaru & Suprime &  4478.4 &  763.9 \\
-        $g^+$ & Subaru & Suprime &  4808.5 & 1043.1 \\
-        $g$   & CHFT   & Megacam &  4899.9 & 1293.8 \\
-        $V$   & CFHT   & CFH12k  &  5393.7 &  882.7 \\
-        $V_J$ & Subaru & Suprime &  5493.0 &  862.4 \\
-        $r$   & CHFT   & Megacam &  6278.2 & 1120.2 \\
-        $r^+$ & Subaru & Suprime &  6314.8 & 1211.4 \\
-        $R$   & CFHT   & CFH12k  &  6603.5 & 1138.5 \\
-        $i_2$ & CHFT   & Megacam &  7584.5 & 1409.4 \\
-        $i$   & CHFT   & Megacam &  7676.6 & 1307.6 \\
-        $i^+$ & Subaru & Suprime &  7709.1 & 1361.7 \\
-        $I$   & CFHT   & CFH12k  &  8277.3 & 1816.7 \\
-        $z$   & CHFT   & Megacam &  8857.6 & 1040.1 \\
-        $z^+$ & Subaru & Suprime &  9054.5 & 1012.3 \\
-        $Y$   & Subaru & Suprime & 10216.0 &  996.2 \\
-        $J$   & UKIRT  & WFCAM   & 12508.5 & 1476.8 \\
-        
-        \bottomrule
-    \end{tabular}
-    \label{tab:filters}
-\end{table}
+\begin{deluxetable}{L c c R R}
+    \tablecaption{List of the Broadband Filters \label{tab:filters}}
+    \tablehead{\colhead{Filter} & \colhead{Telescope} & \colhead{Instrument} & \colhead{$\lambda_0$} & \colhead{$W_{\text{eff}}$}}
+    \startdata
+        NUV & GALEX  &         &  2343.1 &  767.3 \\
+        u   & CFHT   & Megacam &  3817.7 &  525.4 \\
+        B   & CFHT   & CFH12k  &  4342.5 &  873.6 \\
+        B_J & Subaru & Suprime &  4478.4 &  763.9 \\
+        g^+ & Subaru & Suprime &  4808.5 & 1043.1 \\
+        g   & CHFT   & Megacam &  4899.9 & 1293.8 \\
+        V   & CFHT   & CFH12k  &  5393.7 &  882.7 \\
+        V_J & Subaru & Suprime &  5493.0 &  862.4 \\
+        r   & CHFT   & Megacam &  6278.2 & 1120.2 \\
+        r^+ & Subaru & Suprime &  6314.8 & 1211.4 \\
+        R   & CFHT   & CFH12k  &  6603.5 & 1138.5 \\
+        i_2 & CHFT   & Megacam &  7584.5 & 1409.4 \\
+        i   & CHFT   & Megacam &  7676.6 & 1307.6 \\
+        i^+ & Subaru & Suprime &  7709.1 & 1361.7 \\
+        I   & CFHT   & CFH12k  &  8277.3 & 1816.7 \\
+        z   & CHFT   & Megacam &  8857.6 & 1040.1 \\
+        z^+ & Subaru & Suprime &  9054.5 & 1012.3 \\
+        Y   & Subaru & Suprime & 10216.0 &  996.2 \\
+        J   & UKIRT  & WFCAM   & 12508.5 & 1476.8 \\
+    \enddata
+    \tablecomments{ Mean wavelength, $\lambda_0 = \int \lambda R(\lambda) d\lambda$, and effective width, $W_\text{eff} = \text{Max}[R(\lambda)]^{-1}$, are given in angstroms. Filters are listed in order of increasing $\lambda_0$. The response functions for each filter were obtained from the Spanish Virtual Observatory (SVO) Filter Profile Service.}
+\end{deluxetable}
 
 \medskip
 \subsection{zCOSMOS-\textit{bright}}
