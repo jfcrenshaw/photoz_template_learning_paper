@@ -19,7 +19,7 @@ These eight templates (hereafter N8) can be seen together with with their origin
 
 \begin{figure*}
     \centering
-    \includegraphics{figures/N8_untrained.png}
+    \includegraphics{N8_untrained.png}
     \caption{The untrained N8 templates (black lines) with their corresponding photometry sets (orange points), generated with the algorithm described in Section \ref{sect:training_sets}. N8-1 is the reddest template, with each successive template getting bluer.}
     \label{fig:N8_untrained}
 \end{figure*}
@@ -47,7 +47,7 @@ Eventually, all of the points are orange, indicating that after each new photome
 
 \begin{figure*}
     \centering
-    \includegraphics{figures/N8_1_training_history.pdf}
+    \includegraphics{N8_1_training_history.pdf}
     \caption{Training of N8-1. Left: the initial (light blue) N8-1 template is iteratively perturbed to better represent the colors of its photometry set. The final (dark blue) template is redder and has more structure. Middle: wMSE of the N8-1 template throughout the training process. Orange points represent the wMSE after a photometry matching stage, while blue points represent the wMSE after a perturbation. Right: fractional change in the wMSE. Orange points represent the fractional change due to a new photometry matching stage, while blue points represent a fractional change due to a perturbation. The dotted black lines show the $\pm 0.03$ cutoff. When a perturbation results in a fractional change of magnitude less than 0.03, perturbation is halted and new photometry is matched. After the sixth photometry match, the template is not perturbed because it already sufficiently matches the photometry.}
     \label{fig:training}
 \end{figure*}
@@ -63,7 +63,7 @@ The emergence of these high resolution features from a large ensemble of low res
 
 \begin{figure*}
     \centering
-    \includegraphics{figures/N8_trained.png}
+    \includegraphics{N8_trained.png}
     \caption{The trained N8 templates (black lines) with their final photometry sets (orange points). N8-1 is the reddest template, with each successive template getting bluer. The templates now more closely resemble physical galaxy spectra, and have acquired structure at a higher resolution than the broadband templates. The Balmer break, Mg and Na absorption lines, and H$\alpha$, H$\beta$, H$\gamma$, H$\delta$, OII, and OIII emission lines are labeled in gray.}
     \label{fig:N8_trained}
 \end{figure*}
@@ -76,7 +76,7 @@ However, the N16 set shows a more gradual transition from red to blue.
 
 \begin{figure*}
     \centering
-    \includegraphics{figures/N16_trained.png}
+    \includegraphics{N16_trained.png}
     \caption{The trained N16 templates (black lines) with their final photometry sets (orange points). N16-1 is the reddest template, with each successive template getting bluer. These templates closely resemble the N8 templates and have show the same emerging spectral features (c.f. Figure \ref{fig:N8_trained}), but consist of a more continuous transition from red to blue spectra.}
     \label{fig:N16_trained}
 \end{figure*}
@@ -96,7 +96,7 @@ These new features have been labeled in gray.
 
 \begin{figure*}
     \centering
-    \includegraphics{figures/cwwsb4_trained.png}
+    \includegraphics{cwwsb4_trained.png}
     \caption{Result of training the CWW+SB4 templates. The original templates are in blue, the trained templates in black, and the final training sets are displayed as orange points. The 25Myr and 5Myr templates have acquired emission lines that were not present in the initial templates. These are labeled in gray.}
     \label{fig:cwwsb4_trained}
 \end{figure*}
@@ -139,7 +139,7 @@ Note that the amplitudes of our reconstructed H$\gamma$ and H$\delta$ lines rela
 
 \begin{figure*}
     \centering
-    \includegraphics{figures/N8_spectral_lines.pdf}
+    \includegraphics{N8_spectral_lines.pdf}
     \caption{The N8-6, N8-7, and N8-8 templates with reconstructed emission lines (cf. Figure \ref{fig:N8_trained}). The emission lines, left to right, are OII,H$\delta$, H$\gamma$, H$\beta$, OIII, and H$\alpha$. The wavelengths, relative amplitudes, and effective widths of these lines are in Table \ref{tab:speclines}.}
     \label{fig:speclines}
 \end{figure*}
