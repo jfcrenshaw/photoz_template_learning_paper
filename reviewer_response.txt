@@ -1,0 +1,44 @@
+
+1) Page 1, Introduction: The advantage of ML methods is that the effects of dust, galaxy evolution, and other relevant variables are encoded in the training set and thus accounted for in the derived mapping from colors to redshift. The downside of ML methods is that their success relies on how representative and well-controlled the training set is, and that they are unable to extrapolate beyond that set.
+
+I found this statement somehow incomplete. It is partially true that ML methods can deal automatically with the effects you mentioned, but not in every case, as this depends also from the type of data chosen/available and from the ML models adopted. On the other hand, concerning the downside of ML, it is surely true what you claim, but it should be mentioned that the success of such models relies also on other factors, like the choice of the model itself, of the hyperparameters etc. Therefore, this paragraph should be, in my opinion, rephrased and better specified.
+
+Response: 
+We softened the listed advantages of ML methods by noting that accounting for variables like dust and galaxy evolution is possible, but not guaranteed. We also added that the success of the mapping depends on the choice of ML model and hyperparameters. These changes are bolded on pages 1 and 2.
+
+
+
+2) Page 3, section 2.2: In Equation 3 you report the formula to calculate the template fluxes. Then in Equation 4 you give the discretized version of the cost function, and in Equation 5 a discretized version of Equation 3, to be used for the cost function calculation is given. I would prefer, for the logical flow of the discussion, that Equation 4 and 5 would be switched.
+
+Response:
+We moved the discretized calculation of the template fluxes to directly follow the continuous calculation. These changes are bolded on page 3.
+
+
+
+3) Page 7, section 4: In Equation 13 the log-normal function for the naive-templates is given. As the function S is already introduced in section 2.1, I would suggest to report this equation in that section too.
+
+Response:
+We decided not to report Equation 13 in section 2.1. This is because section 2.1 introduces the general idea of an SED template, to which our method can be applied, regardless of the form of the template. Equation 13 parameterizes a set of SED templates that were chosen specifically for our data set. We also use a different set of SED templates for our data: namely the CWW+SB4 set. All of this to say that Equation 13 is a data specific implementation rather than a general feature of the method.
+
+
+
+4) From what stated in section 4, you start your analysis with 8 templates, followed by an additional set of 16 templates. Then, in section 5.3, the statistical analysis brings you to the necessity of experimenting different number of templates to improve the performance. However, it is not clear what brings you to the initial choice of 8 and 16 templates. Please discuss this topic with some more detail.
+
+Response:
+We started with 8 templates so that we could make a direct comparison with the 8 CWW+SB4 templates. We make this more explicit with the bolded text on page 7. We then double the number of templates to demonstrate that our method is able to reconstruct more templates with a more gradual transition from red to blue. We make this more explicit with the bolded text on page 8.
+
+
+
+5) From Figure 7 and 8, it seems that bluer templates are able to develop more complex structures with respect to redder ones. Is there a reason for this behavior? Please discuss.
+
+Response:
+There are two reasons that the blue templates have more structure. The first is that they represent star forming galaxies, and thus have stronger emission lines. The second is that the bluer templates have more high-redshift galaxies, which aids the reconstruction of high-resolution features. We added this to the paper with the bolded text on page 15.
+
+
+
+6) Page 13, section 5.2: The N8 templates are determined to have one elliptical, four spiral, and three irregular/starburst galaxies; the N16 templates are determined to have two elliptical, eight spiral, and six irregular/starburst galaxies. The fraction of each classification as a function of magnitude for the training set galaxies is displayed in Figure 9.
+
+From what you state here, the different templates classes are quite imbalanced. Could you add a comment on this aspect and, in particular if this could have some effect on the method?
+
+Response:
+Each of our templates have approximately the same number of galaxies matched to them (~10,000). In addition, the photometry plotted with the elliptical templates don't display more variance than the photometry matched to the other classes. This suggests that our data set contains more spiral, irregular, and starburst galaxies than elliptical galaxies, rather than the possibility that we have less finely sampled the space of elliptical galaxy spectra. For this reason, we do not expect this imbalance to have a large impact on the photo-z quality. Nevertheless, a more sophisiticated prior could be constructed without relying on these broad classifications that might improve the redshift estimates. We note this in the bolded text on page 17.

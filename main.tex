@@ -62,7 +62,8 @@ WA 98195}
 
     Machine learning approaches train on a data set of photometry with spec-z's and attempt to directly learn an empirical relationship between galaxy colors and redshift (e.g. \citealt{Connolly1995}, \texttt{TPZ} \citealt{Kind2013}, \texttt{FlexZBoost} \citealt{Izbicki2017}, \texttt{CMNN} \citealt{Graham2018a}).
     Once trained, they can predict galaxy redshifts given photometry alone.
-    The advantage of ML methods is that the effects of dust, galaxy evolution, and other relevant variables are encoded in the training set and thus accounted for in the derived mapping from colors to redshift.
+    The advantage of ML methods is that the effects of dust, galaxy evolution, and other relevant variables are encoded in the training set and thus \textbf{it is possible for ML methods to account for these in the derived mapping from colors to redshift.}
+    \textbf{The success of this mapping depends on the the choice of ML model and the corresponding hyperparameters.}
     The downside of ML methods is that their success relies on how representative and well-controlled the training set is, and that they are unable to extrapolate beyond that set.
 
     Template fitting photo-z estimators (e.g. \texttt{LePhare} \citealt{Arnouts1999}, \bpz\ \citealt{Benitez2000a}, \texttt{EAZY} \citealt{Brammer2008}) work on the assumption that galaxy photometry are sampled from a relatively small set of underlying spectral types, characterized by the eponymous SED templates. 
@@ -152,24 +153,21 @@ WA 98195}
     These observed fluxes should approximately match the template fluxes calculated via Equation \ref{eq:calc_flux1}. 
     However, we can also calculate the template fluxes by imagining that we are observing the template in its rest frame using a set of effective, blueshifted filters:
     \begin{align}
-        \hat{f}_n = \int S(\lambda) \, R^n[(1+z_n)\lambda] \, d[(1+z_n)\lambda]. \label{eq:calc_flux2}
+        \hat{f}_n &= \int S(\lambda) \, R^n[(1+z_n)\lambda] \, d[(1+z_n)\lambda] \\
+                  &= \sum_k s_k \, r_{k'}^n \Delta\lambda_{k'}, \label{eq:calc_flux2}
     \end{align}
+    \textbf{where in the second line $s_k$ and $r_k^n$ are the discrete representations of $S(\lambda)$ and $R^n(\lambda)$ respectively, parameterized by the wavelength bins $\{\lambda_k\}$ with widths $\{\Delta\lambda_k\}$.}
+    \textbf{Primed indices indicate redshifted wavelengths, i.e. $\lambda_{k'} = (1+z_n) \lambda_k$ and $\Delta\lambda_{k'} = (1+z_n)\Delta\lambda_k$.}
 
     We wish to perturb the template so that the template fluxes, $\hat{f}_n$, better match the observed fluxes, $f_n$. 
-    Replacing $S(\lambda)$ with the discrete representation $s_k$, where k indexes wavelength bins, we define the cost function (\citealt{Budavari2000b} Equation 7):
+    \textbf{Letting $\hat{s}_k$ be a new template resulting from a perturbation of $s_k$, we define the cost function (\citealt{Budavari2000b} Equation 7):}
     \begin{align}
         \chi^2 =
         \sum_n \frac{1}{\sigma_n^2}(\hat{f}_n(\{\hat{s}_k\}) - f_n)^2 + 
-        \sum_k \frac{1}{\Delta_k^2}(\hat{s}_k - s_k)^2, \label{eq:cost_function}
+        \sum_k \frac{1}{\Delta_k^2}(\hat{s}_k - s_k)^2. \label{eq:cost_function}
     \end{align}
-    where $\hat{s}_k$ is a new template resulting from a perturbation of $s_k$.
     The optimum perturbation is found via a multidimensional minimization of the cost function. 
-    The first term in Equation \ref{eq:cost_function} penalizes differences between the observed fluxes and the perturbed template fluxes, weighted according to $\sigma_n$ (the fractional error of the measured flux). 
-    The perturbed template fluxes can be calculated with a discretized version of Equation \ref{eq:calc_flux2}:
-    \begin{align}
-        \hat{f}_n(\{\hat{s}_k\}) = \sum_k \hat{s}_k \, r_{k'}^n \Delta\lambda_{k'}
-    \end{align}
-    where $r_k^n$ is the discrete representation of $R^n(\lambda)$, $k'$ is the wavelength bin corresponding to $\lambda_{k'} = (1+z_n) \lambda_k$ and $\Delta\lambda_{k'} = (1+z_n)\Delta\lambda_k$, where $\Delta\lambda_k$ is the width of wavelength bin k. 
+    The first term in Equation \ref{eq:cost_function} penalizes differences between the observed fluxes and the perturbed template fluxes, weighted according to $\sigma_n$ (the fractional error of the measured flux).
     The second term in Equation \ref{eq:cost_function} penalizes large perturbations, weighted by the hyperparameters $\Delta_k$. 
     This parameter controls learning rate and also helps stabilize the results. 
     See the next section for more details. 
@@ -379,6 +377,7 @@ WA 98195}
     A full summary of the set can be seen in Table \ref{tab:data_sets}, and the redshift distribution can be seen in Figure \ref{fig:redshift_dist}.
 
     Eight naive templates were chosen to represent the underlying SED shapes of the photometry set according to the principles described at the end of Section \ref{sect:training_sets}.
+    \textbf{We chose the number eight to allow a direct comparison to the standard template set described below.} 
     They are ``naive'' because they are simply chosen by eye to roughly divide the photometry into groups by spectral shape, but otherwise are not based on any theoretical models or observed SED's.
     Each of the naive templates is a log-normal function,
     \begin{align}
@@ -439,11 +438,11 @@ WA 98195}
         \label{fig:N8_trained}
     \end{figure*}
 
-    In addition to these eight templates, we also train a set of 16 templates from the same range of parameters for the log-normal distribution, creating a more gradual transition of the templates from red to blue. 
-    Training for this template set (hereafter N16) took 50 minutes over 26 rounds.
+    \textbf{In addition to these eight templates, we double the template number and train a set of 16 templates, in order to demonstrate the algorithm's ability to reconstruct templates with a more gradual transition of the colors from red to blue.
+    This set (hereafter N16) was drawn from the same range of parameters for the log-normal function, and trained for 50 minutes over 26 rounds.}
     The results of the training can be seen in Figure \ref{fig:N16_trained}.
     These results closely resemble the N8 results, with the same spectral features emerging.
-    However, the N16 set shows a more gradual transition from red to blue.
+    However, the N16 set shows a more gradual transition in color.
 
     \begin{figure*}
         \centering
@@ -551,7 +550,6 @@ WA 98195}
     We use the various sets of SED templates described in Section \ref{sect:application}, and use the prior described in the following section.
     All other settings were left as default.
 
-    \bigskip
     \subsection{Galaxy Magnitude Priors}
 
     Before estimating photo-z's with \bpz, we must first construct the magnitude priors, $p(z,T|m_0)$, calibrated to the galaxies in our training set.
@@ -563,6 +561,7 @@ WA 98195}
     Instead of constructing a different prior for each template, we follow \citet{Benitez2000a} in dividing our templates into three broad classifications: elliptical (El), spiral (Sp), or irregular/starburst (Im/SB).
     The CWW+SB4 templates are already classified under this scheme.
     We classify our new templates and each of the galaxies in the training set by assigning the classification of the CWW+SB4 template with the most similar colors, determined by minimizing the mean square error of the fluxes.
+    
     The N8 templates are determined to have one elliptical, four spiral, and three irregular/starburst galaxies; the N16 templates are determined to have two elliptical, eight spiral, and six irregular/starburst galaxies.
     The fraction of each classification as a function of magnitude for the training set galaxies is displayed in Figure \ref{fig:class_vs_mag}.
 
@@ -678,7 +677,7 @@ WA 98195}
     For comparison, our test set consists of 20,496 galaxies with $i < 25.7$, in the range $z < 3.6$, including 19,391 galaxies with $i < 25$, in the range $0.3 < z < 3.0$.
     In Figure \ref{fig:photoz_binned}, we show that for redshifts $0.3 < z < 1.2$ we are able to achieve an appropriate outlier fraction, and that our training algorithm makes great progress on the bias, almost reaching the threshold required for LSST.
     We also make modest progress on the scatter, but reduction by another factor of two is still required.
-    Beyond redshift $z=1.2$, all of our metrics far exceed the LSST science requirements.
+    Beyond redshift $z=1.2$, all of our metrics fail the LSST science requirements.
 
     \begin{figure*}
         \centering
@@ -694,8 +693,11 @@ WA 98195}
     In Section \ref{sect:template_training}, we demonstrated that our training algorithm could learn galaxy SED templates from photometry at a high resolution relative to the filters used to make the observations.
     We are able to learn a set of templates over twice the size of the standard CWW+SB4, showing a smooth progression of galaxy colors from red to blue.
     The spectra contain relatively high resolution spectral features, and post-processing can further reconstruct emission and absorption lines.
-    However, our method has a number of limitations.
+    \textbf{The bluer templates contain more structure as they represent star forming galaxies and thus have stronger emission lines.
+    In addition, the bluer templates have a larger number of high-redshift galaxies compared to the red templates, which aids the reconstruction of high-resolution features.
+    While the high-redshift galaxies number in the hundreds instead of thousands, our results indicate that high-resolution features can be reliably reconstructed with only a few hundred galaxies.}
 
+    Our method has a number of limitations.
     The success of our algorithm relies on the ability to generate a naive set of templates as a starting point that will reliably divide the photometry by the spectral type of the galaxy. 
     This is relatively easy to accomplish for fewer than 20 templates, as was demonstrated by our simple photometry matching procedure and the log-normal templates we used.
     This is a strength of the algorithm as it is relatively robust to the starting templates. If, however, you wish to derive more than 20 templates from the photometry, care must be taken in the division of the photometry set to ensure there are sufficient galaxies in each subset to fully sample the entire wavelength range for the templates.
@@ -717,6 +719,12 @@ WA 98195}
     The training algorithm itself could be made more sophisticated by restoring the wavelength dependence of the hyperparameter $\Delta_k$.
     We also hope to move beyond an iterative regression approach into deep learning, perhaps using Generative Adversarial Networks (GANs; \citealt{Goodfellow2014}).
 
+    \textbf{When constructing the \bpz\ prior, we sorted our templates into broad spectral classes.
+    In the N8 set, for example, we determined that one template was elliptical, four were spiral, and three were irregular/starburst.
+    Each of our templates has approximately the same number of galaxies matched to it, and the photometry matched to the elliptical templates does not display more variance than the photometry matched to other templates.
+    These observations indicate that our data set contains a larger number of spiral and irregular/starburst galaxies than elliptical galaxies, rather than suggesting that the space of elliptical galaxy spectra is less finely sampled.
+    For this reason, we do not expect the imbalance of the template number in each class to have a large impact on the photo-z quality, but nevertheless note that a more sophisticated prior could be constructed without relying on this broad classification scheme which may provide better redshift estimates.}
+
     We found in Section \ref{sect:photoz_results} that our training algorithm can improve the bias and scatter of photo-z estimates.
     We found that increasing the number of templates enhances these improvements, with the best results for 20 templates.
     As mentioned above, with our current method for generating photometry sets, we struggle to reliably reconstruct more than 20 templates, so whether these benefits continue to decrease with template number is unknown.
@@ -728,7 +736,7 @@ WA 98195}
 
     \begin{deluxetable}{c C C C C C C}
         \tablecaption{Comparison to BPZ Interpolation \label{tab:interp_comparison}}
-        \tablehead{\colhead{\texttt{INTERP=0}} & \colhead{Total N} & \colhead{$f_\text{cut}$} & \colhead{$f_\text{out}$} & \colhead{Bias} & \colhead{Scatter}}
+        \tablehead{ & \colhead{\texttt{INTERP}} & \colhead{Total N} & \colhead{$f_\text{cut}$} & \colhead{$f_\text{out}$} & \colhead{Bias} & \colhead{Scatter}}
         \startdata
             N8  & 0 &  8 & 0.228 & 0.058 & 0.014 & 0.040 \\
             N8  & 2 & 22 & 0.209 & 0.060 & 0.012 & 0.037 \\
@@ -766,7 +774,7 @@ WA 98195}
 \acknowledgments
 
 The authors would like to thank Bryce Kalmbach for providing advice in early stages of this work, Sam Schmidt for his help with \bpz, Melissa Graham for her code to calculate photo-z statistics, and Tam\'as Budav\'ari for comments on the manuscript. This work was supported by the U.S. Department of Energy, Office of Science, under Award DE-SC-0011635.
-
+\newline
 This research is based on observations made with ESO Telescopes at the La Silla or Paranal Observatories under programme ID(s) 175.A-0839(B), 175.A-0839(D), 175.A-0839(I), 175.A-0839(J), 175.A-0839(H), 175.A-0839(F).
 This research is also based on observations obtained with MegaPrime/MegaCam, a joint project of CFHT and CEA/DAPNIA, at the Canada-France-Hawaii Telescope (CFHT) which is operated by the National Research Council (NRC) of Canada, the Institut National des Science de l'Univers of the Centre National de la Recherche Scientifique (CNRS) of France, and the University of Hawaii.
 This research is also based in part on data products produced at Terapix available at the Canadian Astronomy Data Centre as part of the Canada-France-Hawaii Telescope Legacy Survey, a collaborative project of NRC and CNRS.
@@ -778,7 +786,6 @@ This research has also made use of the SVO Filter Profile Service (\url{http://s
 
 \software{Astropy \citep{AstropyCollaboration2013}, BPZ \citep{Benitez2000a}, Jupyter \citep{Kluyver2016}, Matplotlib \citep{Hunter2007}, Numpy \citep{VanDerWalt2011}, Scikit-learn \citep{Pedregosa2011}, Scipy \citep{Virtanen2020}.}
     
-
 
 \bibliography{references.bib}{}
 \bibliographystyle{aasjournal}
