@@ -62,8 +62,8 @@ WA 98195}
 
     Machine learning approaches train on a data set of photometry with spec-z's and attempt to directly learn an empirical relationship between galaxy colors and redshift (e.g. \citealt{Connolly1995}, \texttt{TPZ} \citealt{Kind2013}, \texttt{FlexZBoost} \citealt{Izbicki2017}, \texttt{CMNN} \citealt{Graham2018a}).
     Once trained, they can predict galaxy redshifts given photometry alone.
-    The advantage of ML methods is that the effects of dust, galaxy evolution, and other relevant variables are encoded in the training set and thus \textbf{it is possible for ML methods to account for these in the derived mapping from colors to redshift.}
-    \textbf{The success of this mapping depends on the the choice of ML model and the corresponding hyperparameters.}
+    The advantage of ML methods is that the effects of dust, galaxy evolution, and other relevant variables are encoded in the training set and thus \textbf{it is possible for ML methods to account for these in the derived mapping from colors to redshift if the data encapsulate these effects.}
+    \textbf{The success of this mapping depends on the  choice and complexity of the ML model and the corresponding hyperparameters.}
     The downside of ML methods is that their success relies on how representative and well-controlled the training set is, and that they are unable to extrapolate beyond that set.
 
     Template fitting photo-z estimators (e.g. \texttt{LePhare} \citealt{Arnouts1999}, \bpz\ \citealt{Benitez2000a}, \texttt{EAZY} \citealt{Brammer2008}) work on the assumption that galaxy photometry are sampled from a relatively small set of underlying spectral types, characterized by the eponymous SED templates. 
